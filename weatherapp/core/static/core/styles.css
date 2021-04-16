@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+#main {
+    text-align: center;
+    padding-top: 100px;
+}
+
+input[type='text'] {
+    width: 30%;
+    padding: 10px;
+    border: 2px solid black;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+input[type='submit'] {
+    width: 30%;
+    padding: 10px;
+    border: 2px solid black;
+    background: black;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+}
