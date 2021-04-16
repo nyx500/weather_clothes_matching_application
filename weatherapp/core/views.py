@@ -27,8 +27,21 @@ def index(request):
             region = soup.find('div', attrs={'id': 'wob_loc'}).text
             time = soup.find('div', attrs={'id': 'wob_dts'}).text
             weather = soup.find('div', attrs={'id': 'wob_dcp'}).text
+            celsius = soup.find('span', attrs={'id': 'wob_tm'}).text
+            fahr = soup.find('span', attrs={'id': 'wob_ttm'}).text
+            precipitation = soup.find('span', attrs={'id': 'wob_pp'}).text
+            humidity = soup.find('span', attrs={'id': 'wob_hm'}).text
+            metric_wind = soup.find('span', attrs={'id': 'wob_ws'}).text
+            imperial_wind = soup.find('span', attrs={'id': 'wob_tws'}).text
             print(region)
             print(time)
+            print(weather)
+            print(celsius)
+            print(fahr)
+            print(precipitation)
+            print(humidity)
+            print(metric_wind)
+            print(imperial_wind)
             pass
         return render(request, 'core/index.html')
     else:
