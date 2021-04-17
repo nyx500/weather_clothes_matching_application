@@ -1,7 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 import requests
 from bs4 import BeautifulSoup
+import json
 
 # Create your views here.
 
@@ -18,31 +19,25 @@ def get_html_content(city):
     html_content = session.get(f"https://www.google.co.uk/search?q=weather+in+{city}").text
     return html_content
 
-def index(request):
-    if request.method == "POST":
-        if "city" in request.POST:
-            city = request.POST.get("city")
-            html_content = get_html_content(city)
-            soup = BeautifulSoup(html_content, 'html.parser')
-            region = soup.find('div', attrs={'id': 'wob_loc'}).text
-            time = soup.find('div', attrs={'id': 'wob_dts'}).text
-            weather = soup.find('div', attrs={'id': 'wob_dcp'}).text
-            celsius = soup.find('span', attrs={'id': 'wob_tm'}).text
-            fahr = soup.find('span', attrs={'id': 'wob_ttm'}).text
-            precipitation = soup.find('span', attrs={'id': 'wob_pp'}).text
-            humidity = soup.find('span', attrs={'id': 'wob_hm'}).text
-            metric_wind = soup.find('span', attrs={'id': 'wob_ws'}).text
-            imperial_wind = soup.find('span', attrs={'id': 'wob_tws'}).text
-            print(region)
-            print(time)
-            print(weather)
-            print(celsius)
-            print(fahr)
-            print(precipitation)
-            print(humidity)
-            print(metric_wind)
-            print(imperial_wind)
-            pass
-        return render(request, 'core/index.html')
+def result(request, city):
+    if city != 'no_city':
+        print(f'City: {city}');
+        html_content = get_html_content(city)
+        soup = BeautifulSoup(html_content, 'html.parser')
+        weather_data = dict()
+        weather_data['region'] = soup.find('div', attrs={'id': 'wob_loc'}).text
+        weather_data['time'] = soup.find('div', attrs={'id': 'wob_dts'}).text
+        weather_data['weather'] = soup.find('div', attrs={'id': 'wob_dcp'}).text
+        weather_data['celsius'] = soup.find('span', attrs={'id': 'wob_tm'}).text
+        weather_data['fahr'] = soup.find('span', attrs={'id': 'wob_ttm'}).text
+        weather_data['precipitation'] = soup.find('span', attrs={'id': 'wob_pp'}).text
+        weather_data['humidity'] = soup.find('span', attrs={'id': 'wob_hm'}).text
+        weather_data['metric_wind'] = soup.find('span', attrs={'id': 'wob_ws'}).text
+        weather_data['imperial_wind'] = soup.find('span', attrs={'id': 'wob_tws'}).text
+        return JsonResponse(weather_data)
     else:
+        print(f'None city: {city}');
         return render(request, 'core/index.html')
+
+def index(request):
+    return render(request, 'core/index.html')
