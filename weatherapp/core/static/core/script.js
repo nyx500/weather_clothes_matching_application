@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.querySelector('#find-the-weather').style.display = 'none';
                     document.querySelector('#fake-form').style.display = 'none';
                     document.querySelector('#main').innerHTML = response;
-                    history.pushState({ city }, ``, `city/${city}`);
+                    history.pushState({ city: city }, ``, `city/${city}`);
                 })
         } else {
             message = document.createElement('h2');
@@ -43,4 +43,5 @@ window.addEventListener('popstate', () => {
     }
     document.querySelector('#main').innerHTML = '';
     location.reload();
+    history.pushState({ city: 'no_city' }, ``, ``)
 })
