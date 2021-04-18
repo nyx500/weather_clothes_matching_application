@@ -26,3 +26,8 @@ button {
     cursor: pointer;
     text-transform: uppercase;
 }
+
+#message {
+    color: red;
+    margin-top: 10px;
+}
