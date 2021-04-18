@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.onkeydown = (e) => {
         if (e.key === 'F5' || ((e.key === 'r' || e.key === 'R') && e.ctrlKey)) {
             refresh(e);
+        } else if (e.key == 'Enter') {
+            submitCity();
         }
     }
 
@@ -17,28 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.querySelector('#city-button').onclick = () => {
-        if (document.querySelector('#message')) {
-            document.querySelector('#message').remove();
-        }
-        if (document.querySelector('#city').value !== "") {
-            window.city = `${document.querySelector('#city').value}`;
-            history.pushState({ city: window.city }, ``, `${window.city}`);
-            console.log(`Push State: ${history.state.city}`);
-            getWeatherData(window.city);
-            if (document.querySelector('#find-the-weather')) {
-                document.querySelector('#find-the-weather').style.display = 'none';
-            }
-            if (document.querySelector('#fake-form')) {
-                document.querySelector('#fake-form').style.display = 'none';
-            }
-        } else {
-            message = document.createElement('h2');
-            message.id = "message";
-            message.innerHTML = 'You must enter a city!';
-            message.style.color = 'red';
-            message.style.marginTop = '5px';
-            document.querySelector('#main').append(message);
-        }
+        submitCity();
     }
 })
 
@@ -74,6 +55,31 @@ function refresh(e) {
     e.preventDefault();
     console.log('refresh');
     getWeatherData(window.city);
+}
+
+function submitCity() {
+    if (document.querySelector('#message')) {
+        document.querySelector('#message').remove();
+    }
+    if (document.querySelector('#city').value !== "") {
+        window.city = `${document.querySelector('#city').value}`;
+        history.pushState({ city: window.city }, ``, `${window.city}`);
+        console.log(`Push State: ${history.state.city}`);
+        getWeatherData(window.city);
+        if (document.querySelector('#find-the-weather')) {
+            document.querySelector('#find-the-weather').style.display = 'none';
+        }
+        if (document.querySelector('#fake-form')) {
+            document.querySelector('#fake-form').style.display = 'none';
+        }
+    } else {
+        message = document.createElement('h2');
+        message.id = "message";
+        message.innerHTML = 'You must enter a city!';
+        message.style.color = 'red';
+        message.style.marginTop = '5px';
+        document.querySelector('#main').append(message);
+    }
 }
 
 window.addEventListener('popstate', e => {
