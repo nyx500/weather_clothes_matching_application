@@ -24,15 +24,24 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function getWeatherData(city) {
+    let cityObj = {
+        body: `${city}`
+    };
     if (city === 'no_city') {
-        fetch(`city/${city}`);
+        fetch(`city/${city}`, {
+            method: 'POST',
+            body: JSON.stringify(cityObj)
+        });
         document.querySelector('#fake-form').style.display = 'block';
         document.querySelector('#find-the-weather').style.display = 'block';
         if (document.querySelector('#data')) {
             document.querySelector('#data').remove();
         }
     } else {
-        fetch(`city/${city}`)
+        fetch(`city/${city}`, {
+                method: 'POST',
+                body: JSON.stringify(cityObj)
+            })
             .then(response => response.json())
             .then(response => {
                 console.log(response);
