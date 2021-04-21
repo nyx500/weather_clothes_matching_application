@@ -20,17 +20,17 @@
         <div class="sidenav">
             <a href="{% url 'index' %}">Home</a>
         </div>
-        {% if data %}
-            <h5 id="refresh-message">This is the weather: {{data.weather}}.</h5>
-        {% else %}
-            <div id="main">
+        <div id="main">
+            {% if data %}
+                The weather in {{ data.region }} now is {{ data.weather }}. The temperature is {{ data.celsius }} degrees Celsius and {{ data.fahr }} degrees Fahrenheit. There is {{ data.humidity }} humidity. The wind speed is {{ data.metric_wind }} and {{ data.imperial_wind }}.
+            {% else %}
                 <h1 id="find-the-weather">Find the Weather</h1>
                 <div id="fake-form">
                     <input type="text" name="city" id="city" placeholder="city...">
                     <br>
                     <button id='city-button' value="Submit">Submit</button>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </body>
 </html>
