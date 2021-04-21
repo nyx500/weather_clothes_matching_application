@@ -1,97 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-
-    window.city = 'no_city';
-    history.pushState({ city: window.city }, ``, ``);
-
     document.onkeydown = (e) => {
-        if (e.key === 'F5' || ((e.key === 'r' || e.key === 'R') && e.ctrlKey)) {
-            refresh(e);
-        } else if (e.key == 'Enter') {
-            submitCity();
+        if (e.key == 'Enter') {
+            window.city = `${document.querySelector('#city').value}`;
+            get_data(window.city);
         }
     }
-
-    if (document.querySelector('#find-the-weather')) {
-        document.querySelector('#find-the-weather').style.display = 'block';
-    }
-    if (document.querySelector('#fake-form')) {
-        document.querySelector('#fake-form').style.display = 'block';
-    }
-
-    document.querySelector('#city-button').onclick = () => {
-        submitCity();
+    if (document.querySelector('#city-button')) {
+        document.querySelector('#city-button').onclick = () => {
+            window.city = `${document.querySelector('#city').value}`;
+            get_data(window.city);
+        }
     }
 })
 
-function getWeatherData(city) {
+function get_data(city) {
     let cityObj = {
         body: `${city}`
     };
-    if (city === 'no_city') {
-        fetch(`city/${city}`, {
+    fetch('get_data', {
             method: 'POST',
             body: JSON.stringify(cityObj)
-        });
-        document.querySelector('#fake-form').style.display = 'block';
-        document.querySelector('#find-the-weather').style.display = 'block';
-        if (document.querySelector('#data')) {
-            document.querySelector('#data').remove();
-        }
-    } else {
-        fetch(`city/${city}`, {
-                method: 'POST',
-                body: JSON.stringify(cityObj)
-            })
-            .then(response => response.json())
-            .then(response => {
-                console.log(response);
-                document.querySelector('#fake-form').style.display = 'none';
-                document.querySelector('#find-the-weather').style.display = 'none';
-                const data = document.createElement('div');
-                data.id = "data";
-                data.innerHTML = `The weather in ${response["region"]} at ${response["time"]} is <b>${response["weather"].toLowerCase()}</b>.`;
-                document.querySelector('#main').append(data);
-                data.style.display = 'block';
-            })
-    }
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response);
+            if (response["Error"]) {
+                let error_message = document.createElement('h5');
+                error_message.id = "error";
+                error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
+                document.querySelector('#main').append(error_message);
+            } else {
+                document.querySelector('#main').innerHTML = `The weather in ${response['region']} now is ${response['weather'].toLowerCase()}. The temperature is ${response['celsius']} degrees Celsius and ${response['fahr']} degrees Fahrenheit. There is ${response['humidity']} humidity. The wind speed is ${response['metric_wind']} and ${response['imperial_wind']}.`
+                history.pushState({ city: city }, ``, `/city/${city}/`)
+            }
+        })
 }
-
-// Allows the user to refresh the page successfully without being taken to the pushState URL which doesn't actually exist
-function refresh(e) {
-    if (document.querySelector('#data')) {
-        document.querySelector('#data').remove();
-    }
-    e.preventDefault();
-    console.log('refresh');
-    getWeatherData(window.city);
-}
-
-function submitCity() {
-    if (document.querySelector('#message')) {
-        document.querySelector('#message').remove();
-    }
-    if (document.querySelector('#city').value !== "") {
-        window.city = `${document.querySelector('#city').value}`;
-        history.pushState({ city: window.city }, ``, `${window.city}`);
-        console.log(`Push State: ${history.state.city}`);
-        getWeatherData(window.city);
-        if (document.querySelector('#find-the-weather')) {
-            document.querySelector('#find-the-weather').style.display = 'none';
-        }
-        if (document.querySelector('#fake-form')) {
-            document.querySelector('#fake-form').style.display = 'none';
-        }
-    } else {
-        message = document.createElement('h2');
-        message.id = "message";
-        message.innerHTML = 'You must enter a city!';
-        message.style.color = 'red';
-        message.style.marginTop = '5px';
-        document.querySelector('#main').append(message);
-    }
-}
-
-window.addEventListener('popstate', e => {
-    getWeatherData(e.state.city);
-    console.log(`State: ${e.state.city}`);
-})

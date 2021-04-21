@@ -17,13 +17,16 @@ def get_html_content(city):
 def get_weather_data(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     weather_data = dict()
-    weather_data['region'] = soup.find('div', attrs={'id': 'wob_loc'}).text
-    weather_data['time'] = soup.find('div', attrs={'id': 'wob_dts'}).text
-    weather_data['weather'] = soup.find('div', attrs={'id': 'wob_dcp'}).text
-    weather_data['celsius'] = soup.find('span', attrs={'id': 'wob_tm'}).text
-    weather_data['fahr'] = soup.find('span', attrs={'id': 'wob_ttm'}).text
-    weather_data['precipitation'] = soup.find('span', attrs={'id': 'wob_pp'}).text
-    weather_data['humidity'] = soup.find('span', attrs={'id': 'wob_hm'}).text
-    weather_data['metric_wind'] = soup.find('span', attrs={'id': 'wob_ws'}).text
-    weather_data['imperial_wind'] = soup.find('span', attrs={'id': 'wob_tws'}).text
-    return(weather_data)
+    if soup.find('div', attrs={'id': 'wob_loc'}) == None:
+        return "No such city"
+    else:
+        weather_data['region'] = soup.find('div', attrs={'id': 'wob_loc'}).text
+        weather_data['time'] = soup.find('div', attrs={'id': 'wob_dts'}).text
+        weather_data['weather'] = soup.find('div', attrs={'id': 'wob_dcp'}).text
+        weather_data['celsius'] = soup.find('span', attrs={'id': 'wob_tm'}).text
+        weather_data['fahr'] = soup.find('span', attrs={'id': 'wob_ttm'}).text
+        weather_data['precipitation'] = soup.find('span', attrs={'id': 'wob_pp'}).text
+        weather_data['humidity'] = soup.find('span', attrs={'id': 'wob_hm'}).text
+        weather_data['metric_wind'] = soup.find('span', attrs={'id': 'wob_ws'}).text
+        weather_data['imperial_wind'] = soup.find('span', attrs={'id': 'wob_tws'}).text
+        return(weather_data)

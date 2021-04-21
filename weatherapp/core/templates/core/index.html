@@ -3,6 +3,7 @@
 
 <html>
     <head>
+        <link rel="shortcut icon" href="#">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>WeatherApp</title>
@@ -16,13 +17,20 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div id="main">
-            <h1 id="find-the-weather">Find the Weather</h1>
-            <div id="fake-form">
-                <input type="text" name="city" id="city" placeholder="city...">
-                <br>
-                <button id='city-button' value="Submit">Submit</button>
-            </div>
+        <div class="sidenav">
+            <a href="{% url 'index' %}">Home</a>
         </div>
+        {% if data %}
+            <h5 id="refresh-message">This is the weather: {{data.weather}}.</h5>
+        {% else %}
+            <div id="main">
+                <h1 id="find-the-weather">Find the Weather</h1>
+                <div id="fake-form">
+                    <input type="text" name="city" id="city" placeholder="city...">
+                    <br>
+                    <button id='city-button' value="Submit">Submit</button>
+                </div>
+            </div>
+        {% endif %}
     </body>
 </html>
