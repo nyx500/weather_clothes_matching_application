@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 })
 
+window.onpopstate = function() {
+    location.reload();
+}
+
 function get_data(city) {
     let cityObj = {
         body: `${city}`
