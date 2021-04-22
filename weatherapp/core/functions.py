@@ -27,6 +27,20 @@ def encode_weather_based_on_temp(condition, temp):
     return(condition)
 
 def change_feels_like_weather(humidity, wind, weather, hot_or_cold, weather_data):
+
+    print(f"WIND: {wind}")
+
+    if wind <= 20:
+        weather_data['is_it_windy'] = "It is not very windy."
+        weather += 3
+    elif wind > 20 and wind <= 30:
+        weather_data['is_it_windy'] = "It is quite windy."
+        weather += 2
+    elif wind > 30 and wind < 45:
+        weather_data['is_it_windy'] = "It is very windy, so the weather will feel colder than expected."
+        weather += 1
+    else:
+        weather_data['is_it_windy'] = "It is extremely windy. Be careful if you need to go outside."
     
     if hot_or_cold == 'cold':
         if humidity > 50 and humidity < 70:
@@ -43,18 +57,6 @@ def change_feels_like_weather(humidity, wind, weather, hot_or_cold, weather_data
             weather += 1
         elif humidity >= 90:
             weather += 2
-
-    if wind <= 20:
-        weather += 3
-        weather_data['is_it_windy'] = "It is not very windy."
-    elif wind > 20 and wind <= 30:
-        weather += 2
-        weather_data['is_it_windy'] = "There is quite a fresh breeze."
-    elif wind > 30 and wind <= 45:
-        weather += 1
-        weather_data['is_it_windy'] = "It is quite windy, so it will feel colder than expected."
-    elif wind > 45:
-        weather_data['is_it_windy'] = "It is extremely windy. Are you sure you want to go outside?"
 
     return(weather)
     
@@ -116,9 +118,9 @@ def get_weather_data(html_content):
             weather_value = encode_weather_based_on_temp(weather_value, weather_data['temp'])
 
             if weather_value <= 10: 
-                weather = change_feels_like_weather(weather_data['humidity'], weather_data['humidity'], weather_value, 'cold', weather_data)
+                weather = change_feels_like_weather(weather_data['humidity'], weather_data['wind'], weather_value, 'cold', weather_data)
             else:
-                weather = change_feels_like_weather(weather_data['humidity'], weather_data['humidity'], weather_value, 'hot', weather_data)
+                weather = change_feels_like_weather(weather_data['humidity'], weather_data['wind'], weather_value, 'hot', weather_data)
 
         visibility = 1
         obscured_visibility = ['mist', 'fog', 'dust', 'smoke']

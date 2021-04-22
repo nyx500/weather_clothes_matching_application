@@ -40,9 +40,9 @@ function get_data(city) {
                 history.pushState({ city: city }, ``, `/city/${city}/`)
                 if (response['overall_assessment'] <= 5) {
                     assessment.innerHTML = `The weather is cold. Bundle up with a scarf and gloves!`;
-                } else if (response['overall_assessment'] > 5 && response['overall_assessment'] <= 9) {
+                } else if (response['overall_assessment'] > 5 && response['overall_assessment'] <= 10) {
                     assessment.innerHTML = `The weather is quite cool. Even if it looks sunny, make sure to wear a light jacket or coat!`;
-                } else if (response['overall_assessment'] > 9 && response['overall_assessment'] <= 13) {
+                } else if (response['overall_assessment'] > 10 && response['overall_assessment'] <= 15) {
                     assessment.innerHTML = `The weather is pleasant and warm.`;
                 } else {
                     assessment.innerHTML = `The weather is very hot. Make sure that you keep well-hydrated.`;
