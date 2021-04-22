@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 
 def encode_weather_based_on_temp(condition, temp):
-    # Coldest possible weather condition would be snow (1) + less than -10 degrees C .: 1
     if temp <= - 10:
         pass
     elif temp > -10 and temp <= 0:
@@ -24,20 +23,16 @@ def encode_weather_based_on_temp(condition, temp):
     elif temp > 35 and temp <= 40:
         condition += 9
     else:
-        # Hottest possible weather condition would be clear (5) + more than 40 degrees C .: 15
         condition += 10
     return(condition)
 
-
-# Returns a rating of the weather on a scale between 1 and 20
-def change_feels_like_weather(humidity, wind, weather, hot_or_cold):
+def change_feels_like_weather(humidity, wind, weather, hot_or_cold, weather_data):
     
     if hot_or_cold == 'cold':
         if humidity > 50 and humidity < 70:
            weather += 2
         elif humidity >= 70 and humidity < 90:
             weather += 1
-        # Lowest weather would be 1
         elif humidity >= 90:
             pass
 
@@ -46,20 +41,20 @@ def change_feels_like_weather(humidity, wind, weather, hot_or_cold):
             pass
         elif humidity >= 70 and humidity < 90:
             weather += 1
-        # Highest weather would be 17
         elif humidity >= 90:
             weather += 2
 
-    # Highest weather would be 20
-    if wind > 20 and wind <= 30:
+    if wind <= 20:
         weather += 3
-    elif wind > 30 and wind <= 40:
+        weather_data['is_it_windy'] = "It is not very windy."
+    elif wind > 20 and wind <= 30:
         weather += 2
-    elif wind > 40 and wind <= 60:
+        weather_data['is_it_windy'] = "There is quite a fresh breeze."
+    elif wind > 30 and wind <= 45:
         weather += 1
-    # Lowest weather would be 1
-    elif wind > 60:
-        pass
+        weather_data['is_it_windy'] = "It is quite windy, so it will feel colder than expected."
+    elif wind > 45:
+        weather_data['is_it_windy'] = "It is extremely windy. Are you sure you want to go outside?"
 
     return(weather)
     
@@ -121,9 +116,9 @@ def get_weather_data(html_content):
             weather_value = encode_weather_based_on_temp(weather_value, weather_data['temp'])
 
             if weather_value <= 10: 
-                weather = change_feels_like_weather(weather_data['humidity'], weather_data['humidity'], weather_value, 'cold')
+                weather = change_feels_like_weather(weather_data['humidity'], weather_data['humidity'], weather_value, 'cold', weather_data)
             else:
-                weather = change_feels_like_weather(weather_data['humidity'], weather_data['humidity'], weather_value, 'hot')
+                weather = change_feels_like_weather(weather_data['humidity'], weather_data['humidity'], weather_value, 'hot', weather_data)
 
         visibility = 1
         obscured_visibility = ['mist', 'fog', 'dust', 'smoke']

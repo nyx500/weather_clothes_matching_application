@@ -101,6 +101,7 @@ button {
 #assessment {
     margin: 10px;
     padding: 10px;
-    color: darkblue;
-    background-color: lightblue;
+    color: rebeccapurple;
+    font-weight: bold;
+    font-size: 18px;
 }

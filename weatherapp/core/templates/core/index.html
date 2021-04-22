@@ -22,17 +22,17 @@
         </div>
         <div id="main">
             {% if data %}
-                The weather in {{ data.region }} now is <em><b>{{ data.weather }}</em></b>. The temperature is {{ data.temp }} degrees Celsius. There is {{ data.humidity }}% humidity. The wind speed {{ data.wind }} km/h.
+                The weather in {{ data.region }} now is <em><b>{{ data.weather }}</em></b>. The temperature is {{ data.temp }} degrees Celsius. There is {{ data.humidity }}% humidity. The wind speed {{ data.wind }} km/h. <b>{{ data.is_it_windy }}</b>
                 <h5 id="assessment">
                     {% if data.overall_assessment <= 5 %}
-                        The weather is cold.
-                    {% elif data.overall_assessment > 5 and data.overall_assessment <= 10 %}
-                        The weather is quite cool.
-                    {% elif data.overall_assessment > 10 and data.overall_assessment <= 15 %}
+                        The weather is cold. Bundle up with a scarf and gloves!
+                    {% elif data.overall_assessment > 5 and data.overall_assessment <= 9 %}
+                        The weather is quite cool. Even if it looks sunny, make sure to wear a light jacket or coat!
+                    {% elif data.overall_assessment > 9 and data.overall_assessment <= 13 %}
                         The weather is pleasant and warm.
                     {% else %}
-                        The weather is very hot.
-                    {% endif %}
+                        The weather is very hot. Make sure that you keep well-hydrated.
+                    {% endif %} 
                 </h5>
 
             {% else %}

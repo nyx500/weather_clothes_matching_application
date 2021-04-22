@@ -34,18 +34,18 @@ function get_data(city) {
                 error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
                 document.querySelector('#main').append(error_message);
             } else {
-                document.querySelector('#main').innerHTML = `The weather in ${response['region']} now is <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature is ${response['temp']} degrees Celsius. There is ${response['humidity']}% humidity. The wind speed is ${response['wind']} km/h.`
+                document.querySelector('#main').innerHTML = `The weather in ${response['region']} now is <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature is ${response['temp']} degrees Celsius. There is ${response['humidity']}% humidity. The wind speed is ${response['wind']} km/h. <b>${response['is_it_windy']}</b>`
                 let assessment = document.createElement('h5');
                 assessment.id = 'assessment';
                 history.pushState({ city: city }, ``, `/city/${city}/`)
                 if (response['overall_assessment'] <= 5) {
-                    assessment.innerHTML = `The weather is cold.`;
-                } else if (response['overall_assessment'] > 5 && response['overall_assessment'] <= 10) {
-                    assessment.innerHTML = `The weather is quite cool.`;
-                } else if (response['overall_assessment'] > 10 && response['overall_assessment'] <= 15) {
+                    assessment.innerHTML = `The weather is cold. Bundle up with a scarf and gloves!`;
+                } else if (response['overall_assessment'] > 5 && response['overall_assessment'] <= 9) {
+                    assessment.innerHTML = `The weather is quite cool. Even if it looks sunny, make sure to wear a light jacket or coat!`;
+                } else if (response['overall_assessment'] > 9 && response['overall_assessment'] <= 13) {
                     assessment.innerHTML = `The weather is pleasant and warm.`;
                 } else {
-                    assessment.innerHTML = `The weather is very hot.`;
+                    assessment.innerHTML = `The weather is very hot. Make sure that you keep well-hydrated.`;
                 }
                 document.querySelector('#main').append(assessment);
             }
