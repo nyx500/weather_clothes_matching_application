@@ -34,8 +34,20 @@ function get_data(city) {
                 error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
                 document.querySelector('#main').append(error_message);
             } else {
-                document.querySelector('#main').innerHTML = `The weather in ${response['region']} now is ${response['weather'].toLowerCase()}. The temperature is ${response['celsius']} degrees Celsius and ${response['fahr']} degrees Fahrenheit. There is ${response['humidity']} humidity. The wind speed is ${response['metric_wind']} and ${response['imperial_wind']}.`
+                document.querySelector('#main').innerHTML = `The weather in ${response['region']} now is <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature is ${response['temp']} degrees Celsius. There is ${response['humidity']}% humidity. The wind speed is ${response['wind']} km/h.`
+                let assessment = document.createElement('h5');
+                assessment.id = 'assessment';
                 history.pushState({ city: city }, ``, `/city/${city}/`)
+                if (response['overall_assessment'] <= 5) {
+                    assessment.innerHTML = `The weather is cold.`;
+                } else if (response['overall_assessment'] > 5 && response['overall_assessment'] <= 10) {
+                    assessment.innerHTML = `The weather is quite cool.`;
+                } else if (response['overall_assessment'] > 10 && response['overall_assessment'] <= 15) {
+                    assessment.innerHTML = `The weather is pleasant and warm.`;
+                } else {
+                    assessment.innerHTML = `The weather is very hot.`;
+                }
+                document.querySelector('#main').append(assessment);
             }
         })
 }

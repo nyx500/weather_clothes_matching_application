@@ -22,7 +22,19 @@
         </div>
         <div id="main">
             {% if data %}
-                The weather in {{ data.region }} now is {{ data.weather }}. The temperature is {{ data.celsius }} degrees Celsius and {{ data.fahr }} degrees Fahrenheit. There is {{ data.humidity }} humidity. The wind speed is {{ data.metric_wind }} and {{ data.imperial_wind }}.
+                The weather in {{ data.region }} now is <em><b>{{ data.weather }}</em></b>. The temperature is {{ data.temp }} degrees Celsius. There is {{ data.humidity }}% humidity. The wind speed {{ data.wind }} km/h.
+                <h5 id="assessment">
+                    {% if data.overall_assessment <= 5 %}
+                        The weather is cold.
+                    {% elif data.overall_assessment > 5 and data.overall_assessment <= 10 %}
+                        The weather is quite cool.
+                    {% elif data.overall_assessment > 10 and data.overall_assessment <= 15 %}
+                        The weather is pleasant and warm.
+                    {% else %}
+                        The weather is very hot.
+                    {% endif %}
+                </h5>
+
             {% else %}
                 <h1 id="find-the-weather">Find the Weather</h1>
                 <div id="fake-form">
