@@ -68,23 +68,37 @@ def get_data(request):
         return JsonResponse({"error": "POST request required."}, status=400)
     else:
         data = json.loads(request.body)
-        city = data.get("body", "")
+        print(data)
+        city = data.get("city", "")
+        global time
+        time = data.get("time", "")
         if city != 'no_city':
             print(f'City: {city}');
-            html_content = get_html_content(city)
+            print(f"Time: {time}")
+            html_content = get_html_content(city, time)
             weather_data = get_weather_data(html_content)
             print(f'Weather data: {weather_data}')
             if weather_data == 'No such city':
                 return JsonResponse({"Error": "This location input is invalid"})
             else:
+                weather_data["time"] = time
+                if time == 'now':
+                    weather_data["tense"] = 'is'
+                else:
+                    weather_data["tense"] = 'will be'
                 return JsonResponse(weather_data)
         else:
             print(f'None city: {city}');
             return render(request, 'core/index.html')
 
 def get_city(request, city):
-    html_content = get_html_content(city)
+    html_content = get_html_content(city, time)
     weather_data = get_weather_data(html_content)
+    weather_data["time"] = time
+    if time == 'now':
+        weather_data["tense"] = 'is'
+    else:
+        weather_data["tense"] = 'will be'
     print(f'REFRESH DATA: {weather_data}')
     if weather_data == 'No such city':
         return JsonResponse({"Error": "This location input is invalid"})

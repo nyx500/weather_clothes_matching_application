@@ -27,6 +27,20 @@ input[type='text'] {
     text-align: center;
 }
 
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: flex-start;
+    padding: 20px;
+}
+
+.form-check {
+    margin-left: 20px;
+}
+
 button {
     width: 30%;
     padding: 10px;

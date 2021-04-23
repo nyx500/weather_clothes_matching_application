@@ -31,16 +31,16 @@ def change_feels_like_weather(humidity, wind, weather, hot_or_cold, weather_data
     print(f"WIND: {wind}")
 
     if wind <= 20:
-        weather_data['is_it_windy'] = "It is not very windy."
+        weather_data['is_it_windy'] = "calm and still."
         weather += 3
     elif wind > 20 and wind <= 30:
-        weather_data['is_it_windy'] = "It is quite windy."
+        weather_data['is_it_windy'] = "quite windy."
         weather += 2
     elif wind > 30 and wind < 45:
-        weather_data['is_it_windy'] = "It is very windy, so the weather will feel colder than expected."
+        weather_data['is_it_windy'] = "very windy."
         weather += 1
     else:
-        weather_data['is_it_windy'] = "It is extremely windy. Be careful if you need to go outside."
+        weather_data['is_it_windy'] = "extremely windy."
     
     if hot_or_cold == 'cold':
         if humidity > 50 and humidity < 70:
@@ -61,7 +61,7 @@ def change_feels_like_weather(humidity, wind, weather, hot_or_cold, weather_data
     return(weather)
     
 
-def get_html_content(city):
+def get_html_content(city, time):
     USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
     LANGUAGE = "en-gb;q=0.8, en;q=0.7"
     # Makes a session object
@@ -71,7 +71,12 @@ def get_html_content(city):
     session.headers['Content-Language'] = LANGUAGE
     # Replaces all the spaces in the string to a '+'
     city = city.replace(' ', '+')
-    html_content = session.get(f"https://www.google.co.uk/search?q=weather+in+{city}").text
+    if time == 'now':
+        html_content = session.get(f"https://www.google.co.uk/search?q=weather+in+{city}").text
+    elif time == 'later':
+        html_content = session.get(f"https://www.google.co.uk/search?q=weather+in+{city}+in+two+hours").text
+    else:
+        html_content = session.get(f"https://www.google.co.uk/search?q=weather+in+{city}+tomorrow").text
     return html_content
 
 
