@@ -1,3 +1,4 @@
+{% extends 'core/layout.html' %}
 {% load static %}
 <!DOCTYPE html>
 
@@ -17,32 +18,31 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="sidenav">
-            <a href="{% url 'index' %}">Home</a>
-        </div>
-        <div id="main">
-            {% if data %}
-                The weather in {{ data.region }} now is <em><b>{{ data.weather }}</em></b>. The temperature is {{ data.temp }} degrees Celsius. There is {{ data.humidity }}% humidity. The wind speed {{ data.wind }} km/h. <b>{{ data.is_it_windy }}</b>
-                <h5 id="assessment">
-                    {% if data.overall_assessment <= 5 %}
-                        The weather is cold. Bundle up with a scarf and gloves!
-                    {% elif data.overall_assessment > 5 and data.overall_assessment <= 10 %}
-                        The weather is quite cool. Even if it looks sunny, make sure to wear a light jacket or coat!
-                    {% elif data.overall_assessment > 10 and data.overall_assessment <= 15 %}
-                        The weather is pleasant and warm.
-                    {% else %}
-                        The weather is very hot. Make sure that you keep well-hydrated.
-                    {% endif %} 
-                </h5>
+        {% block div %}
+            <div id="main">
+                {% if data %}
+                    The weather in {{ data.region }} now is <em><b>{{ data.weather }}</em></b>. The temperature is {{ data.temp }} degrees Celsius. There is {{ data.humidity }}% humidity. The wind speed {{ data.wind }} km/h. <b>{{ data.is_it_windy }}</b>
+                    <h5 id="assessment">
+                        {% if data.overall_assessment <= 5 %}
+                            The weather is cold. Bundle up with a scarf and gloves!
+                        {% elif data.overall_assessment > 5 and data.overall_assessment <= 10 %}
+                            The weather is quite cool. Even if it looks sunny, make sure to wear a light jacket or coat!
+                        {% elif data.overall_assessment > 10 and data.overall_assessment <= 15 %}
+                            The weather is pleasant and warm.
+                        {% else %}
+                            The weather is very hot. Make sure that you keep well-hydrated.
+                        {% endif %} 
+                    </h5>
 
-            {% else %}
-                <h1 id="find-the-weather">Find the Weather</h1>
-                <div id="fake-form">
-                    <input type="text" name="city" id="city" placeholder="city...">
-                    <br>
-                    <button id='city-button' value="Submit">Submit</button>
-                </div>
-            {% endif %}
-        </div>
+                {% else %}
+                    <h1 id="find-the-weather">Find the Weather</h1>
+                    <div id="fake-form">
+                        <input type="text" name="city" id="city" placeholder="city...">
+                        <br>
+                        <button id='city-button' value="Submit">Submit</button>
+                    </div>
+                {% endif %}
+            </div>
+        {% endblock %}
     </body>
 </html>
