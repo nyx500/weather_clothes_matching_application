@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    var x = get_default();
+
     document.onkeydown = (e) => {
         if (e.key == 'Enter') {
             get_form_input();
@@ -38,7 +40,6 @@ function which_temperature() {
 }
 
 function get_data(city, time, units) {
-    console.log(`Time: ${time}`);
     let cityObj = {
         city: city,
         time: time,
@@ -93,5 +94,37 @@ function get_form_input() {
         window.time = if_checked();
         window.units = which_temperature();
         get_data(window.city, window.time, window.units);
+    }
+}
+
+function get_default() {
+    if (!navigator.geolocation) {
+        console.log("Geolocation is not supported by your browser");
+        return;
+    } else {
+        navigator.geolocation.getCurrentPosition((position) => {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            get_city(latitude, longitude);
+        });
+    }
+}
+
+// Tutorial from GeeksForGeeks: https://www.geeksforgeeks.org/how-to-get-city-name-by-using-geolocation/
+function get_city(latitude, longitude) {
+    var xml_request = new XMLHttpRequest();
+    xml_request.open('GET', `https://us1.locationiq.com/v1/reverse.php?key=pk.f1cd7768e879c74ad6ce32a649740398&lat=${latitude}&lon=${longitude}&format=json`, true);
+    xml_request.send();
+    xml_request.onreadystatechange = () => {
+        if (xml_request.readyState == 4 && xml_request.status == 200) {
+            var city = JSON.parse(xml_request.responseText).address.city;
+            if (document.querySelector('#city')) {
+                document.querySelector('#city').value = `${city}`;
+                document.querySelector('#city').style.color = 'grey';
+                document.querySelector('#city').onfocus = () => {
+                    document.querySelector('#city').style.color = 'black';
+                }
+            }
+        }
     }
 }
