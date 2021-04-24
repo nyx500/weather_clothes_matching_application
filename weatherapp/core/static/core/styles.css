@@ -126,13 +126,10 @@ button {
 
 @media screen and (max-width: 463px) {
     #main {
-        width: 100vw!important;
-        margin-left: 50px;
         background-color: lightblue;
         border: 1px solid lightblue;
     }
     .container {
-        margin-left: 20px;
         flex-wrap: wrap;
         justify-content: flex-start;
     }
