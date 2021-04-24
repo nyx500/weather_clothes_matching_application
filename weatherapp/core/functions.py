@@ -80,7 +80,7 @@ def get_html_content(city, time):
     return html_content
 
 
-def get_weather_data(html_content):
+def get_weather_data(html_content, units):
     soup = BeautifulSoup(html_content, 'html.parser')
     weather_data = dict()
     if soup.find('div', attrs={'id': 'wob_loc'}) == None:
@@ -137,4 +137,13 @@ def get_weather_data(html_content):
 
         weather_data['overall_assessment'] = weather
 
-        return(weather_data)
+        if units == "fahrenheit":
+            weather_data['units'] = 'fahrenheit'
+            weather_data['temp'] = int(soup.find('span', attrs={'id': 'wob_ttm'}).text)
+            weather_data['wind'] = str(soup.find('span', attrs={'id': 'wob_tws'}).text)
+        else:
+            weather_data['units'] = 'celsius'
+            weather_data['wind'] = str(soup.find('span', attrs={'id': 'wob_ws'}).text)
+        
+
+        return weather_data

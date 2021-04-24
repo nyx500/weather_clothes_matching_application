@@ -28,11 +28,21 @@ function if_checked() {
     return time;
 }
 
-function get_data(city, time) {
+function which_temperature() {
+    if (document.querySelector('#celsius').checked === true) {
+        var units = "celsius";
+    } else {
+        var units = "fahrenheit";
+    }
+    return units;
+}
+
+function get_data(city, time, units) {
     console.log(`Time: ${time}`);
     let cityObj = {
         city: city,
-        time: time
+        time: time,
+        units: units
     };
     fetch('get_data', {
             method: 'POST',
@@ -47,7 +57,8 @@ function get_data(city, time) {
                 error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
                 document.querySelector('#main').append(error_message);
             } else {
-                document.querySelector('#main').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees Celsius. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']} km/h. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`
+                var units = response['units'].charAt(0).toUpperCase() + response['units'].slice(1);
+                document.querySelector('#main').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees ${units}. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']}. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`
                 let assessment = document.createElement('h5');
                 assessment.id = 'assessment';
                 history.pushState({ city: city }, ``, `/city/${city}/`)
@@ -80,6 +91,7 @@ function get_form_input() {
         document.querySelector('#main').append(submit_error);
     } else {
         window.time = if_checked();
-        get_data(window.city, window.time);
+        window.units = which_temperature();
+        get_data(window.city, window.time, window.units);
     }
 }

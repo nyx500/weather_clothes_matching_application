@@ -72,11 +72,14 @@ def get_data(request):
         city = data.get("city", "")
         global time
         time = data.get("time", "")
+        global units
+        units = data.get("units", "")
         if city != 'no_city':
-            print(f'City: {city}');
+            print(f'City: {city}')
             print(f"Time: {time}")
+            print(f"Units: {units}")
             html_content = get_html_content(city, time)
-            weather_data = get_weather_data(html_content)
+            weather_data = get_weather_data(html_content, units)
             print(f'Weather data: {weather_data}')
             if weather_data == 'No such city':
                 return JsonResponse({"Error": "This location input is invalid"})
@@ -92,8 +95,9 @@ def get_data(request):
             return render(request, 'core/index.html')
 
 def get_city(request, city):
+    print(f"Refresh time: {time}")
     html_content = get_html_content(city, time)
-    weather_data = get_weather_data(html_content)
+    weather_data = get_weather_data(html_content, units)
     weather_data["time"] = time
     if time == 'now':
         weather_data["tense"] = 'is'
