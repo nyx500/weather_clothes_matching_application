@@ -32,14 +32,14 @@
                         {% if data.units == "celsius" %}
                         Celsius.
                         {% else %} 
-                        Fahrenheit
-                        {% endif %}. There {{ data.tense }} {{ data.humidity }}% humidity. The wind speed {{ data.tense }} {{ data.wind }}. <b>It {{ data.tense }} {{ data.is_it_windy }}</b>
+                        Fahrenheit.
+                        {% endif %} There {{ data.tense }} {{ data.humidity }}% humidity. The wind speed {{ data.tense }} {{ data.wind }}. <b>It {{ data.tense }} {{ data.is_it_windy }}</b>
                         <h5 id="assessment">
                             {% if data.overall_assessment <= 5 %}
                                 The weather {{ data.tense }} cold. Bundle up with a scarf and gloves!
-                            {% elif data.overall_assessment > 5 and data.overall_assessment <= 10 %}
+                            {% elif data.overall_assessment > 5 and data.overall_assessment <= 13 %}
                                 The weather {{ data.tense }} quite cool. Even if it looks sunny, make sure to wear a light jacket or coat!
-                            {% elif data.overall_assessment > 10 and data.overall_assessment <= 15 %}
+                            {% elif data.overall_assessment > 13 and data.overall_assessment <= 16 %}
                                 The weather {{ data.tense }} pleasant and warm.
                             {% else %}
                                 The weather {{ data.tense }} very hot. Make sure that you keep well-hydrated.
