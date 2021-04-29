@@ -1,5 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
+import mimetypes
+
+
+VALID_IMAGE_MIMETYPES = [
+    "image"
+]
+
+VALID_IMAGE_EXTENSIONS = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+]
+
+def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
+    # https://timmyomahony.com/blog/upload-and-validate-image-from-url-in-django
+    # http://stackoverflow.com/a/10543969/396300
+    # Checks if the image URL ends with any of the valid extensions and returns true if it does and false otherwise
+    return any([url.endswith(e) for e in extension_list])
+
+def valid_url_mimetype(url, mimetype_list=VALID_IMAGE_MIMETYPES):
+    # https://timmyomahony.com/blog/upload-and-validate-image-from-url-in-django
+    # http://stackoverflow.com/a/10543969/396300
+    # The guess_type function returns the type of object (should be an image) and the encoding, then these are stored in two separate variables
+    mimetype, encoding = mimetypes.guess_type(url)
+    # Checks if the value (the only one is image) in the list of valid formats is the same as the returned mimetype and prints True if this is the case
+    if mimetype:
+        return any([mimetype.startswith(m) for m in mimetype_list])
+    else:
+        return False
 
 def encode_weather_based_on_temp(condition, temp):
     if temp <= - 10:

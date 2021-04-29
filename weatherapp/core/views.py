@@ -120,15 +120,22 @@ def submit(request):
         if form.is_valid():
             data = form.cleaned_data
             url = data["recipe"]
+            image_url = data["image"]
             print(f"URL: {url}")
             # Pretends to be a browser to check access to the URL
             request_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
-            check_url_request = urllib.request.Request(url, headers = request_headers)
+            recipe_request = urllib.request.Request(url, headers = request_headers)
+            image_request = urllib.request.Request(image_url, headers=request_headers)
             try:
-                status = urllib.request.urlopen(check_url_request).getcode()
+                status_recipe = urllib.request.urlopen(recipe_request).getcode()
+                status_image = urllib.request.urlopen(image_request).getcode()
             except:
                 return render(request, "core/index.html", {
-                    'message': 'Error: Invalid URL for recipe.'
+                    'message': 'Error: Invalid URL for recipe/image URL.'
+                })
+            if not valid_url_extension(image_url):
+                return render(request, "core/index.html", {
+                    'message': 'Error: Invalid URL for image link.'
                 })
         else:
             print("Invalid!!!!")
