@@ -126,23 +126,69 @@ def submit(request):
             request_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
             recipe_request = urllib.request.Request(url, headers = request_headers)
             image_request = urllib.request.Request(image_url, headers=request_headers)
+
+            # Validating URL
             try:
-                status_recipe = urllib.request.urlopen(recipe_request).getcode()
-                status_image = urllib.request.urlopen(image_request).getcode()
+                recipe_response = urllib.request.urlopen(recipe_request)
+                status_recipe = recipe_response.getcode()
             except:
                 return render(request, "core/index.html", {
-                    'message': 'Error: Invalid URL for recipe/image URL.'
+                    'message': 'Error: Invalid URL.'
                 })
+
+            # Validating Image URL
+            if len(image_url) > 0:
+                try:
+                    image_response = urllib.request.urlopen(image_request)
+                    status_image = urllib.request.urlopen(image_request).getcode()
+                    message = str(image_response.info())
+
+                    for line in message.splitlines():
+                        print(f"Line: {line}")
+                        if 'Content-Type' in line and 'image' in line:
+                            print("Image URL is valid")
+                            try:
+                                new_recipe = Recipe()
+                                print(request.user)
+                                new_recipe.user = request.user
+                                print(data["title"])
+                                new_recipe.title = data["title"]
+                                print(data["description"])
+                                new_recipe.description = data["description"]
+                                print(url)
+                                new_recipe.recipe = url
+                                print(image_url)
+                                new_recipe.image = image_url
+                                print(data["food_type"])
+                                new_recipe.food_type = data["food_type"]
+                                print(data["diets"])
+                                new_recipe.diets = data["diets"]
+                                print(data["meals"])
+                                new_recipe.meals = data["meals"]
+                                new_recipe.save()
+                                for weather in data["weather"]:
+                                    new_recipe.weather.add(weather)
+                                return render(request, "core/index.html", {
+                                    'message': 'Thank you for submitting your recipe!!'
+                                })
+                            except:
+                                print("Did not save the form data")
+                                return render(request, "core/index.html", {
+                                    'message': 'Error: Could not save form.'
+                                })
+                except:
+                    return render(request, "core/index.html", {
+                    'message': 'Error: Invalid image URL.'
+                })
+
             if not valid_url_extension(image_url):
+                print("Not a valid url extension")
                 return render(request, "core/index.html", {
                     'message': 'Error: Invalid URL for image link.'
                 })
         else:
-            print("Invalid!!!!")
+            print("Form/image URL invalid!!!!")
             return HttpResponseRedirect(reverse("submit"))
-        return render(request, "core/index.html", {
-            'message': 'Thank you for submitting your recipe!!'
-        })
     else:
         form = RecipeForm()
         return render(request, "core/submit.html", {
