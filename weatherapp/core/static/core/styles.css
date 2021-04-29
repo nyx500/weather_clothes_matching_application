@@ -62,6 +62,10 @@ button {
     margin-top: 10px;
 }
 
+#thank-you {
+    color: red;
+}
+
 
 /* The sidebar menu */
 
@@ -152,4 +156,28 @@ button {
     color: rebeccapurple;
     font-weight: bold;
     font-size: 18px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: stretch;
+    padding: 10px;
+}
+
+.field .label {
+    order: 1;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.field .input {
+    order: 2;
+}
+
+.field .input ul {
+    list-style-type: none;
 }

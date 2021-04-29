@@ -4,13 +4,18 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     pass
 
+class Weather(models.Model):
+    type = models.CharField(max_length=64)
+    def __str__(self):
+        return self.type
 
 class Recipe(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
-    title = models.CharField(max_length=100, verbose_name="Title:")
-    description = models.CharField(max_length=500, verbose_name="Brief description (500 chars max):")
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
     recipe = models.URLField()
+    image = models.URLField(blank=True, null=True)
     time = models.DateTimeField(auto_now_add=True)
 
     AFRICAN = 'african'
@@ -53,34 +58,9 @@ class Recipe(models.Model):
 
     food_type = models.CharField(max_length=64, choices=FOOD_TYPE)
 
-    RAINY = 'rainy'
-    SNOW = 'snow'
-    WINDY = 'windy'
-    SUNNY = 'sunny'
-    WARM = 'warm'
-    COLD = 'cold'
-    GREY = 'grey'
-    CLOUDY = 'cloudy'
-    HUMID = 'humid'
-    DRY = 'dry'
-    FOG = 'fog'
+    weather = models.ManyToManyField(Weather, related_name='recipes')
 
-    WEATHER = [
-        (RAINY, ('Wet and rainy')),
-        (CLOUDY, ('Cloudy and overcast')),
-        (GREY, ('Grey and gloomy')),
-        (SNOW, ('Snowing')),
-        (SUNNY, ('Sunny')),
-        (WINDY, ('Windy')),
-        (WARM, ('Warm')),
-        (COLD, ('Cold')),
-        (HUMID, ('Humid')),
-        (DRY, ('Dry')),
-        (FOG, ('Fog')),
-    ]
-
-    weather = models.CharField(max_length=64, choices=WEATHER)
-
+    NONE = 'none'
     CARNIVORE = 'carnivore'
     DIABETIC = 'diabetic'
     GLUTEN_FREE = 'gluten_free'
@@ -90,6 +70,7 @@ class Recipe(models.Model):
     VEGETARIAN = 'vegetarian'
 
     DIETS = [
+        (NONE, ('N/A')),
         (CARNIVORE, ('Carnivore')),
         (DIABETIC, ('Diabetic')),
         (GLUTEN_FREE, ('Gluten-Free')),

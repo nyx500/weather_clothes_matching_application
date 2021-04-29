@@ -48,35 +48,39 @@
                     </div>
                 {% else %}
                     <h1 id="find-the-weather">Find the Weather</h1>
-                    <div id="fake-form">
-                        <input type="text" name="city" id="city">
-                        <br>
-                        <div id="time-options" class="container">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="now" value="option1" checked>
-                                <label class="form-check-label" for="now">Now</label>
+                    {% if message %}
+                        <h2 id="thank-you">{{ message }}</h2>
+                    {% else %}
+                        <div id="fake-form">
+                            <input type="text" name="city" id="city">
+                            <br>
+                            <div id="time-options" class="container">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="now" value="option1" checked>
+                                    <label class="form-check-label" for="now">Now</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="later" value="option2">
+                                    <label class="form-check-label" for="later">Later today</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="tomorrow" value="option3">
+                                    <label class="form-check-label" for="tomorrow">Tomorrow</label>
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="later" value="option2">
-                                <label class="form-check-label" for="later">Later today</label>
+                            <div id="units-options" class="container">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioUnitOptions" id="celsius" value="cels" checked>
+                                    <label class="form-check-label" for="celsius">Celsius</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioUnitOptions" id="fahrenheit" value="fahr">
+                                    <label class="form-check-label" for="fahrenheit">Fahrenheit</label>
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="tomorrow" value="option3">
-                                <label class="form-check-label" for="tomorrow">Tomorrow</label>
-                            </div>
+                            <button id='city-button' value="Submit">Submit</button>
                         </div>
-                        <div id="units-options" class="container">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radioUnitOptions" id="celsius" value="cels" checked>
-                                <label class="form-check-label" for="celsius">Celsius</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radioUnitOptions" id="fahrenheit" value="fahr">
-                                <label class="form-check-label" for="fahrenheit">Fahrenheit</label>
-                            </div>
-                        </div>
-                        <button id='city-button' value="Submit">Submit</button>
-                    </div>
+                    {% endif %}
                 {% endif %}
             </div>
         {% endblock %}

@@ -9,6 +9,8 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from .functions import *
 from .models import *
+from .forms import *
+import urllib.request
 
 def index(request):
     return render(request, 'core/index.html')
@@ -109,4 +111,33 @@ def get_city(request, city):
     else:
         return render(request, 'core/index.html', {
             'data': weather_data
+        })
+
+@login_required
+def submit(request):
+    if request.method == "POST":
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            url = data["recipe"]
+            print(f"URL: {url}")
+            # Pretends to be a browser to check access to the URL
+            request_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
+            check_url_request = urllib.request.Request(url, headers = request_headers)
+            try:
+                status = urllib.request.urlopen(check_url_request).getcode()
+            except:
+                return render(request, "core/index.html", {
+                    'message': 'Error: Invalid URL for recipe.'
+                })
+        else:
+            print("Invalid!!!!")
+            return HttpResponseRedirect(reverse("submit"))
+        return render(request, "core/index.html", {
+            'message': 'Thank you for submitting your recipe!!'
+        })
+    else:
+        form = RecipeForm()
+        return render(request, "core/submit.html", {
+            'form': form
         })
