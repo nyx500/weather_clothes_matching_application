@@ -113,6 +113,13 @@ def get_city(request, city):
             'data': weather_data
         })
 
+def recipes(request):
+    return render(request, "core/recipes.html", {
+        'recipes': Recipe.objects.all().order_by('-time')
+    })
+
+
+
 @login_required
 def submit(request):
     if request.method == "POST":
@@ -168,9 +175,7 @@ def submit(request):
                                 new_recipe.save()
                                 for weather in data["weather"]:
                                     new_recipe.weather.add(weather)
-                                return render(request, "core/index.html", {
-                                    'message': 'Thank you for submitting your recipe!!'
-                                })
+                                return HttpResponseRedirect(reverse("recipes"))
                             except:
                                 print("Did not save the form data")
                                 return render(request, "core/index.html", {

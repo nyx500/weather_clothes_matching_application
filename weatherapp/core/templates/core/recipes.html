@@ -1,0 +1,40 @@
+{% extends 'core/layout.html' %}
+
+{% block div %}
+
+    <h1 style="text-align: center; margin-bottom:50px;"><b>All Recipes</b></h1>
+    <div id="flex-container" style="display:flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around; align-content: baseline; align-items: flex-start;">
+        {% for recipe in recipes %}
+            <div class="card recipe-card" style="flex-grow: 1; flex-shrink: 1; width:25rem; order: {{ forloop.counter}}; margin:5px;">
+                <div class="card-title" style="text-align: center;">
+                    <h4 style="margin-top: 5px;"><b>{{ recipe.title }}</b></h4>
+                </div>
+                <a href="{{ recipe.recipe }}"><img src="{{ recipe.image }}" class="card-img-top" style="padding:10px; width:100%; height: 20vw; object-fit: cover; margin:0 auto; text-align:center; display: block;"></a>
+                <div class="card-body" style="display: flex; flex-direction: column; wrap: nowrap; justify_content: space-evenly; align-content:flex-start; align-items: space-between;">
+                    <p style="order: 1; text-align: center; background-color: lightblue;">{{ recipe.description }}<p>
+                    <div style="order: 2; text-align:center;">
+                        <h6><b>Cuisine:</b> {{ recipe.food_type }}</h6>
+                        <h6><b>Specialised Diet:</b> {{ recipe.diets }}</h6>
+                        <h6><b>Meal Time:</b> {{ recipe.meals }}</h6>
+                    </div>
+                    <h6 style="order: 3; margin-bottom: 100px;"><b>Suited for:</b>
+                        <ul class="list-inline">
+                            {% for w in recipe.weather.all %}
+                                <button class="list-inline-item" style="box-shadow: 5px 5px 10px grey; padding:10px;border:1px solid green; border-radius: 10px;background-color:green; margin:5px; cursor: default;">{{ w }}</button>
+                            {% endfor %}
+                        </ul>
+                    </h6>
+                    <h6 style="order: 4;">Posted by: <b>{{ recipe.user }}</b></h6>
+                    <p style=" order:5; font-size:10px; color: grey;font-style: oblique;">Attribution: {{ recipe.recipe }}</p>
+                </div>
+            </div>
+            <!-- Pseudoelement in order to shrink last card to the right size -->
+            {% if forloop.last %}
+                <div class="card recipe-card" style="flex-grow: 1; flex-shrink: 1; width:25rem; background-color: lightblue; border: 1px solid lightblue; order: {{ forloop.counter}}; margin:5px;">
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

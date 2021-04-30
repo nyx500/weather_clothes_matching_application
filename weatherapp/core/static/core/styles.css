@@ -181,3 +181,5 @@ button {
 .field .input ul {
     list-style-type: none;
 }
+
+.card:nth-child(odd):last-of-type {}
