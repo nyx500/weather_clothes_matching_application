@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import mimetypes
+from .models import *
 
 
 VALID_IMAGE_MIMETYPES = [
@@ -111,6 +112,10 @@ def get_html_content(city, time):
 
 
 def get_weather_data(html_content, units):
+
+    recipes = Recipe.objects.all()
+    recipe_list = []
+
     soup = BeautifulSoup(html_content, 'html.parser')
     weather_data = dict()
     if soup.find('div', attrs={'id': 'wob_loc'}) == None:
@@ -126,30 +131,97 @@ def get_weather_data(html_content, units):
 
         weather_value = 0 
 
+        if weather_data['wind'] > 20:
+            weather_types = ['Windy']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if r not in recipe_list:
+                            if wt in w[1]:
+                                recipe_list.append(r)
+
+        if weather_data['humidity'] > 70:
+            weather_types = ['Humid']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if wt in w[1]:
+                            if r not in recipe_list:
+                                recipe_list.append(r)
+        else:
+            if weather_data['precipitation'] < 15:
+                weather_types = ['Dry']
+                for r in recipes:
+                    for w in r.weather.all().values_list():
+                        for wt in weather_types:
+                            if r not in recipe_list:
+                                if wt in w[1]:
+                                    recipe_list.append(r)
+            else:
+                weather_types = ['Wet']
+                for r in recipes:
+                    for w in r.weather.all().values_list():
+                        for wt in weather_types:
+                            if r not in recipe_list:
+                                if wt in w[1]:
+                                    recipe_list.append(r)
+
         if 'sunny' in weather_data['weather'] or 'clear' in weather_data['weather']:
             weather_value = 5
+            weather_types = ['Sunny']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if r not in recipe_list:
+                            if wt in w[1]:
+                                recipe_list.append(r)
 
         weather4 = ['overcast', 'cloud', 'haze']
         for condition in weather4:
             if condition in weather_data['weather']:
                 weather_value = 4
+                weather_types = ['Cloudy', 'Grey']
+                for r in recipes:
+                    for w in r.weather.all().values_list():
+                        for wt in weather_types:
+                            if r not in recipe_list:
+                                if wt in w[1]:
+                                    recipe_list.append(r)
 
         if 'rain' in weather_data['weather'] or 'shower' in weather_data['weather']:
             weather_value = 3
+            weather_types = ['Wet']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if r not in recipe_list:
+                            if wt in w[1]:
+                                recipe_list.append(r)
 
         if 'storm' in weather_data['weather']:
             weather_value = 2
+            weather_types=['Stormy']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if r not in recipe_list:
+                            if wt in w[1]:
+                                recipe_list.append(r)
         
         weather1 = ['snow', 'freezing', 'mist', 'sleet', 'icy', 'fog', 'flurries', 'hail']
         for condition in weather1:
             if condition in weather_data['weather']:
                 weather_value = 1
-
+                weather_types= ['Snowing', 'Frosty']
+                for r in recipes:
+                    for w in r.weather.all().values_list():
+                        for wt in weather_types:
+                            if r not in recipe_list:
+                                if wt in w[1]:
+                                    recipe_list.append(r)
         if weather_value == 0:
-
             weather = 'Error'
         else:
-
             weather_value = encode_weather_based_on_temp(weather_value, weather_data['temp'])
 
             if weather_value <= 10: 
@@ -162,10 +234,42 @@ def get_weather_data(html_content, units):
         for condition in obscured_visibility:
             if condition in weather_data['weather']:
                 visibility = 0
+                weather_types=['Foggy']
+                for r in recipes:
+                    for w in r.weather.all().values_list():
+                        for wt in weather_types:
+                            if r not in recipe_list:
+                                if wt in w[1]:
+                                    recipe_list.append(r)
 
         weather_data['visibility'] = visibility
 
         weather_data['overall_assessment'] = weather
+
+        if weather_data['overall_assessment'] <= 13:
+            weather_types = ['Cold']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if r not in recipe_list:
+                            if wt in w[1]:
+                                recipe_list.append(r)
+        elif weather_data['overall_assessment'] > 13 and weather_data['overall_assessment'] <= 16:
+            weather_types = ['Warm']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if r not in recipe_list:
+                            if wt in w[1]:
+                                recipe_list.append(r)
+        else:
+            weather_types = ['Scorching']
+            for r in recipes:
+                for w in r.weather.all().values_list():
+                    for wt in weather_types:
+                        if r not in recipe_list:
+                            if wt in w[1]:
+                                recipe_list.append(r)
 
         if units == "fahrenheit":
             weather_data['units'] = 'fahrenheit'
@@ -174,6 +278,20 @@ def get_weather_data(html_content, units):
         else:
             weather_data['units'] = 'celsius'
             weather_data['wind'] = str(soup.find('span', attrs={'id': 'wob_ws'}).text)
-        
+
+        # Returns a list of recipes as JSON serializable dictionaries
+        ids = []
+        for r in recipe_list:
+            ids.append(r.id)
+        recipes_as_dictionaries = []
+        for i in ids:
+            for r in recipes.values():
+                if i == r['id']:
+                    recipes_as_dictionaries.append(r)
+
+        weather_data["recipes"] = recipes_as_dictionaries
+
+        print(f"Recipe list: {recipe_list}, {ids}")
+        print(f"Recipes as dictionaries: {recipes_as_dictionaries}")
 
         return weather_data
