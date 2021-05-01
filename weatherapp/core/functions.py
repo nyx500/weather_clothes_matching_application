@@ -110,6 +110,13 @@ def get_html_content(city, time):
         html_content = session.get(f"https://www.google.co.uk/search?q=weather+in+{city}+tomorrow").text
     return html_content
 
+def find_recipes(weather_type, recipes, recipe_list):
+    for r in recipes:
+        for w in r.weather.all().values_list():
+            if r not in recipe_list:
+                if weather_type in w[1]:
+                    recipe_list.append(r)
+    return recipe_list
 
 def get_weather_data(html_content, units):
 
@@ -132,93 +139,53 @@ def get_weather_data(html_content, units):
         weather_value = 0 
 
         if weather_data['wind'] > 20:
-            weather_types = ['Windy']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if r not in recipe_list:
-                            if wt in w[1]:
-                                recipe_list.append(r)
+            weather_type = 'Windy'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
         if weather_data['humidity'] > 70:
-            weather_types = ['Humid']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if wt in w[1]:
-                            if r not in recipe_list:
-                                recipe_list.append(r)
+            weather_type = 'Humid'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
         else:
             if weather_data['precipitation'] < 15:
-                weather_types = ['Dry']
-                for r in recipes:
-                    for w in r.weather.all().values_list():
-                        for wt in weather_types:
-                            if r not in recipe_list:
-                                if wt in w[1]:
-                                    recipe_list.append(r)
+                weather_type = 'Dry'
+                recipe_list = find_recipes(weather_type, recipes, recipe_list)
             else:
-                weather_types = ['Wet']
-                for r in recipes:
-                    for w in r.weather.all().values_list():
-                        for wt in weather_types:
-                            if r not in recipe_list:
-                                if wt in w[1]:
-                                    recipe_list.append(r)
+                weather_type = 'Wet'
+                recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
         if 'sunny' in weather_data['weather'] or 'clear' in weather_data['weather']:
             weather_value = 5
-            weather_types = ['Sunny']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if r not in recipe_list:
-                            if wt in w[1]:
-                                recipe_list.append(r)
+            weather_type = 'Sunny'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
         weather4 = ['overcast', 'cloud', 'haze']
         for condition in weather4:
             if condition in weather_data['weather']:
                 weather_value = 4
-                weather_types = ['Cloudy', 'Grey']
-                for r in recipes:
-                    for w in r.weather.all().values_list():
-                        for wt in weather_types:
-                            if r not in recipe_list:
-                                if wt in w[1]:
-                                    recipe_list.append(r)
+                weather_type = 'Cloudy'
+                recipe_list = find_recipes(weather_type, recipes, recipe_list)
+                weather_type = 'Grey'
+                recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
         if 'rain' in weather_data['weather'] or 'shower' in weather_data['weather']:
             weather_value = 3
-            weather_types = ['Wet']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if r not in recipe_list:
-                            if wt in w[1]:
-                                recipe_list.append(r)
+            weather_type = 'Wet'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
         if 'storm' in weather_data['weather']:
             weather_value = 2
-            weather_types=['Stormy']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if r not in recipe_list:
-                            if wt in w[1]:
-                                recipe_list.append(r)
+            weather_type = 'Stormy'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
         
         weather1 = ['snow', 'freezing', 'mist', 'sleet', 'icy', 'fog', 'flurries', 'hail']
         for condition in weather1:
             if condition in weather_data['weather']:
                 weather_value = 1
-                weather_types= ['Snowing', 'Frosty']
-                for r in recipes:
-                    for w in r.weather.all().values_list():
-                        for wt in weather_types:
-                            if r not in recipe_list:
-                                if wt in w[1]:
-                                    recipe_list.append(r)
+                weather_type = 'Snowing'
+                recipe_list = find_recipes(weather_type, recipes, recipe_list)
+                weather_type = 'Frosty'
+                recipe_list = find_recipes(weather_type, recipes, recipe_list)
+
         if weather_value == 0:
             weather = 'Error'
         else:
@@ -234,42 +201,22 @@ def get_weather_data(html_content, units):
         for condition in obscured_visibility:
             if condition in weather_data['weather']:
                 visibility = 0
-                weather_types=['Foggy']
-                for r in recipes:
-                    for w in r.weather.all().values_list():
-                        for wt in weather_types:
-                            if r not in recipe_list:
-                                if wt in w[1]:
-                                    recipe_list.append(r)
+                weather_type = 'Foggy'
+                recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
         weather_data['visibility'] = visibility
 
         weather_data['overall_assessment'] = weather
 
         if weather_data['overall_assessment'] <= 13:
-            weather_types = ['Cold']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if r not in recipe_list:
-                            if wt in w[1]:
-                                recipe_list.append(r)
+            weather_type = 'Cold'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
         elif weather_data['overall_assessment'] > 13 and weather_data['overall_assessment'] <= 16:
-            weather_types = ['Warm']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if r not in recipe_list:
-                            if wt in w[1]:
-                                recipe_list.append(r)
+            weather_type = 'Warm'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
         else:
-            weather_types = ['Scorching']
-            for r in recipes:
-                for w in r.weather.all().values_list():
-                    for wt in weather_types:
-                        if r not in recipe_list:
-                            if wt in w[1]:
-                                recipe_list.append(r)
+            weather_type = 'Scorching'
+            recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
         if units == "fahrenheit":
             weather_data['units'] = 'fahrenheit'
