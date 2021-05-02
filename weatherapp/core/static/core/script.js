@@ -95,7 +95,11 @@ function get_data(city, time, units) {
                     recipe_url.className = "recipe-url";
                     recipe_url.innerHTML = recipe['recipe'];
                     recipe_url.href = `${recipe['recipe']};`
+                    var recipe_img = document.createElement('img');
+                    recipe_img.src = recipe["image"];
+                    recipe_img.className = "recipe-img";
                     document.querySelector(`#recipe-body${index}`).append(recipe_url);
+                    document.querySelector(`#recipe-body${index}`).append(recipe_img);
                 });
                 document.querySelector('#main').append(assessment);
             }
