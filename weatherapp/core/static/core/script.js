@@ -72,6 +72,18 @@ function get_data(city, time, units) {
                 } else {
                     assessment.innerHTML = `The weather ${response['tense']} very hot. Make sure that you keep well-hydrated.`;
                 }
+                var firstThreeRecipes = response["recipes"].slice(0, 3);
+                var recipe_container = document.createElement('div');
+                recipe_container.id = "recipe-container";
+                document.querySelector('body').append(recipe_container);
+                firstThreeRecipes.forEach(function(recipe, index) {
+                    console.log(`Recipe${recipe['id']} Index${index}: ${recipe['title']}`);
+                    var top_recipe = document.createElement('div');
+                    top_recipe.className = "top-recipe card";
+                    top_recipe.style.order = `${index}`;
+                    top_recipe.innerHTML = `${recipe['title']}`;
+                    document.querySelector('#recipe-container').append(top_recipe);
+                });
                 document.querySelector('#main').append(assessment);
             }
         })

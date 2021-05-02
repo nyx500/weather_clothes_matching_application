@@ -183,3 +183,19 @@ button {
 }
 
 .card:nth-child(odd):last-of-type {}
+
+#recipe-container {
+    margin: auto;
+    margin-left: 160px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    align-content: flex-start;
+}
+
+.top-recipe {
+    margin: 10px;
+    min-width: 20rem;
+}
