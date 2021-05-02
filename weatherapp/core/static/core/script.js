@@ -86,7 +86,16 @@ function get_data(city, time, units) {
                     var title = document.createElement('h5');
                     title.className = "title card-title";
                     title.innerHTML = `${recipe['title']}`;
+                    var recipe_body = document.createElement('div');
+                    recipe_body.id = `recipe-body${index}`;
+                    recipe_body.className = "card-body";
                     document.querySelector(`#recipe-index${index}`).append(title);
+                    document.querySelector(`#recipe-index${index}`).append(recipe_body);
+                    var recipe_url = document.createElement("a");
+                    recipe_url.className = "recipe-url";
+                    recipe_url.innerHTML = recipe['recipe'];
+                    recipe_url.href = `${recipe['recipe']};`
+                    document.querySelector(`#recipe-body${index}`).append(recipe_url);
                 });
                 document.querySelector('#main').append(assessment);
             }
