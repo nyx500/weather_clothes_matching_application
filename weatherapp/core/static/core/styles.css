@@ -198,4 +198,9 @@ button {
 .top-recipe {
     margin: 10px;
     min-width: 20rem;
+    padding: 20px;
+}
+
+.title {
+    font-weight: bold;
 }

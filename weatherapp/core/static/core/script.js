@@ -79,10 +79,14 @@ function get_data(city, time, units) {
                 firstThreeRecipes.forEach(function(recipe, index) {
                     console.log(`Recipe${recipe['id']} Index${index}: ${recipe['title']}`);
                     var top_recipe = document.createElement('div');
+                    top_recipe.id = `recipe-index${index}`;
                     top_recipe.className = "top-recipe card";
                     top_recipe.style.order = `${index}`;
-                    top_recipe.innerHTML = `${recipe['title']}`;
                     document.querySelector('#recipe-container').append(top_recipe);
+                    var title = document.createElement('h5');
+                    title.className = "title card-title";
+                    title.innerHTML = `${recipe['title']}`;
+                    document.querySelector(`#recipe-index${index}`).append(title);
                 });
                 document.querySelector('#main').append(assessment);
             }

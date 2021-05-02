@@ -120,7 +120,7 @@ def find_recipes(weather_type, recipes, recipe_list):
 
 def get_weather_data(html_content, units):
 
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.all().order_by('-time')
     recipe_list = []
 
     soup = BeautifulSoup(html_content, 'html.parser')

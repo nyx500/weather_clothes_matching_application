@@ -159,7 +159,8 @@ def submit(request):
                                 print(request.user)
                                 new_recipe.user = request.user
                                 print(data["title"])
-                                new_recipe.title = data["title"]
+                                title = data["title"].title()
+                                new_recipe.title = title
                                 print(data["description"])
                                 new_recipe.description = data["description"]
                                 print(url)
