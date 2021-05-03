@@ -75,7 +75,22 @@ function get_data(city, time, units) {
                 } else {
                     assessment.innerHTML = `The weather ${response['tense']} very hot. Make sure that you keep well-hydrated.`;
                 }
-                var firstThreeRecipes = response["recipes"].slice(0, 3);
+                var justIds = [];
+                response["recipes"].forEach(recipe => {
+                    justIds.push(recipe["id"]);
+                })
+                justIds.sort((a, b) => b - a);
+                justIds = justIds.slice(0, 3);
+                console.log(`Ids: ${justIds}`);
+                var firstThreeRecipes = [];
+                justIds.forEach(id => {
+                    response["recipes"].forEach(recipe => {
+                        if (id === recipe["id"]) {
+                            firstThreeRecipes.push(recipe);
+                        }
+                    })
+                })
+                console.log(`First three recipes: ${firstThreeRecipes}`);
                 var recipe_container = document.createElement('div');
                 recipe_container.id = "recipe-container";
                 document.querySelector('body').append(recipe_container);

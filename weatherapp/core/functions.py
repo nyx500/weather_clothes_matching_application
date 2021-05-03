@@ -116,6 +116,7 @@ def find_recipes(weather_type, recipes, recipe_list):
             if r not in recipe_list:
                 if weather_type in w[1]:
                     recipe_list.append(r)
+    print(f"RECIPE LIST: {recipe_list}")
     return recipe_list
 
 def get_weather_data(html_content, units):
@@ -163,9 +164,11 @@ def get_weather_data(html_content, units):
             if condition in weather_data['weather']:
                 weather_value = 4
                 weather_type = 'Cloudy'
+                print(f"Cloudy: {recipe_list})")
                 recipe_list = find_recipes(weather_type, recipes, recipe_list)
                 weather_type = 'Grey'
                 recipe_list = find_recipes(weather_type, recipes, recipe_list)
+                print(f"Grey: {recipe_list})")
 
         if 'rain' in weather_data['weather'] or 'shower' in weather_data['weather']:
             weather_value = 3
@@ -241,6 +244,6 @@ def get_weather_data(html_content, units):
         weather_data["recipes"] = recipes_as_dictionaries
 
         print(f"Recipe list: {recipe_list}, {ids}")
-        print(f"Recipes as dictionaries: {recipes_as_dictionaries}")
+        print(f"DICTIONARY OF RECIPES: {recipes_as_dictionaries}")
 
         return weather_data
