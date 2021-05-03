@@ -235,6 +235,8 @@ def get_weather_data(html_content, units):
             for r in recipes.values():
                 if i == r['id']:
                     recipes_as_dictionaries.append(r)
+        for d in recipes_as_dictionaries:
+            d['username'] = User.objects.get(id=d['user_id']).username
 
         weather_data["recipes"] = recipes_as_dictionaries
 

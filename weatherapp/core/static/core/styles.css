@@ -214,3 +214,8 @@ button {
     text-align: center;
     display: block;
 }
+
+.recipe-weather-types {
+    order: 3;
+    margin-bottom: 100px;
+}
