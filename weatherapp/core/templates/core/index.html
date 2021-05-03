@@ -20,32 +20,8 @@
     <body>
         {% block div %}
             <div id="main">
-                {% if data %}
-                    <div id="information">
-                        The weather in {{ data.region }} 
-                        {% if data.time == 'now' %} 
-                            is
-                        {% else %}
-                            will be
-                        {% endif %}
-                        <em><b>{{ data.weather }}</b></em>. The temperature {{ data.tense }} {{ data.temp }} degrees 
-                        {% if data.units == "celsius" %}
-                        Celsius.
-                        {% else %} 
-                        Fahrenheit.
-                        {% endif %} There {{ data.tense }} {{ data.humidity }}% humidity. The wind speed {{ data.tense }} {{ data.wind }}. <b>It {{ data.tense }} {{ data.is_it_windy }}</b>
-                        <h5 id="assessment">
-                            {% if data.overall_assessment <= 5 %}
-                                The weather {{ data.tense }} cold. Bundle up with a scarf and gloves!
-                            {% elif data.overall_assessment > 5 and data.overall_assessment <= 13 %}
-                                The weather {{ data.tense }} quite cool. Even if it looks sunny, make sure to wear a light jacket or coat!
-                            {% elif data.overall_assessment > 13 and data.overall_assessment <= 16 %}
-                                The weather {{ data.tense }} pleasant and warm.
-                            {% else %}
-                                The weather {{ data.tense }} very hot. Make sure that you keep well-hydrated.
-                            {% endif %} 
-                        </h5>
-                    </div>
+                {% if get_data == "yes" %}
+                    <input type="hidden" id="data-response"></input>
                 {% else %}
                     <div id="weather-form">
                         <h1 id="find-the-weather">Find the Weather</h1>

@@ -13,11 +13,19 @@ document.addEventListener('DOMContentLoaded', function() {
             get_form_input();
         }
     }
+
+    if (document.querySelector('#data-response')) {
+        console.log(`${window.localStorage.getItem('city')}, ${window.localStorage.getItem('time')}, ${window.localStorage.getItem('units')}`);
+        get_data(window.localStorage.getItem('city'), window.localStorage.getItem('time'), window.localStorage.getItem('units'));
+    }
 })
 
-window.onpopstate = function() {
-    location.reload();
+window.onpopstate = function(event) {
+    history.replaceState({ city: 'no city' }, ``, ``);
+    console.log(`STATE: location: ${document.location}, state: ${JSON.stringify(event.state)}`);
+    window.location.reload();
 }
+
 
 function if_checked() {
     if (document.querySelector('#now').checked === true) {
@@ -45,7 +53,7 @@ function get_data(city, time, units) {
         time: time,
         units: units
     };
-    fetch('get_data', {
+    fetch('http://127.0.0.1:8000/get_data', {
             method: 'POST',
             body: JSON.stringify(cityObj)
         })
@@ -58,6 +66,10 @@ function get_data(city, time, units) {
                 error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
                 document.querySelector('#main').append(error_message);
             } else {
+                history.pushState({ city: city }, ``, `/city/${city}/`);
+                var information = document.createElement('div');
+                information.id = 'information';
+                document.querySelector('#main').append(information);
                 var units = response['units'].charAt(0).toUpperCase() + response['units'].slice(1);
                 var heading = document.createElement('h1');
                 heading.innerHTML = `Weather Results for ${response['region']}`;
@@ -65,7 +77,6 @@ function get_data(city, time, units) {
                 document.querySelector('#information').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees ${units}. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']}. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`
                 let assessment = document.createElement('h5');
                 assessment.id = 'assessment';
-                history.pushState({ city: city }, ``, `/city/${city}/`)
                 if (response['overall_assessment'] <= 5) {
                     assessment.innerHTML = `The weather ${response['tense']} cold. Bundle up with a scarf and gloves!`;
                 } else if (response['overall_assessment'] > 5 && response['overall_assessment'] <= 13) {
@@ -91,6 +102,9 @@ function get_data(city, time, units) {
                     })
                 })
                 console.log(`First three recipes: ${firstThreeRecipes}`);
+                if (document.querySelector('#recipe-container')) {
+                    document.querySelector('#recipe-container').remove();
+                }
                 var recipe_container = document.createElement('div');
                 recipe_container.id = "recipe-container";
                 document.querySelector('body').append(recipe_container);
@@ -136,7 +150,9 @@ function get_data(city, time, units) {
                     var attribution_text = document.createElement('p');
                     attribution_text.className = 'attribution-text';
                     attribution_text.innerHTML = recipe['recipe'];
-                    document.querySelector('#weather-form').style.display = 'none';
+                    if (document.querySelector('#weather-form')) {
+                        document.querySelector('#weather-form').style.display = 'none';
+                    }
                     document.querySelector(`#recipe-index${index}`).append(footer);
                     document.querySelector(`#footer${index}`).append(user);
                     document.querySelector(`#footer${index}`).append(attribution);
@@ -165,11 +181,11 @@ function get_form_input() {
         submit_error.innerHTML = "You have to submit a valid location."
         document.querySelector('#main').append(submit_error);
     } else {
-        var information = document.createElement('div');
-        information.id = 'information';
-        document.querySelector('#main').append(information);
+        window.localStorage.setItem('city', window.city);
         window.time = if_checked();
+        window.localStorage.setItem('time', window.time);
         window.units = which_temperature();
+        window.localStorage.setItem('units', window.units);
         get_data(window.city, window.time, window.units);
     }
 }

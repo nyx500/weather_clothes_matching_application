@@ -97,21 +97,10 @@ def get_data(request):
             return render(request, 'core/index.html')
 
 def get_city(request, city):
-    print(f"Refresh time: {time}")
-    html_content = get_html_content(city, time)
-    weather_data = get_weather_data(html_content, units)
-    weather_data["time"] = time
-    if time == 'now':
-        weather_data["tense"] = 'is'
-    else:
-        weather_data["tense"] = 'will be'
-    print(f'REFRESH DATA: {weather_data}')
-    if weather_data == 'No such city':
-        return JsonResponse({"Error": "This location input is invalid"})
-    else:
-        return render(request, 'core/index.html', {
-            'data': weather_data
-        })
+    print(f"CITY ROUTE: {city}")
+    return render(request, 'core/index.html', {
+        'get_data': "yes"
+    })
 
 def recipes(request):
     return render(request, "core/recipes.html", {
