@@ -16,9 +16,7 @@ input[type='text'] {
 }
 
 #main_text {
-    padding-top: 100px;
     margin-left: 160px;
-    margin-top: 100px;
     padding: 0px 10px;
 }
 
@@ -27,11 +25,19 @@ input[type='text'] {
 }
 
 #main {
+    margin-top: 20px;
     text-align: center;
-    background-color: blanchedalmond;
-    border: 1px solid blanchedalmond;
-    border-radius: 10px;
-    padding: 10px;
+}
+
+#weather-form {
+    margin-top: 11rem;
+    padding: 20px;
+    min-width: 75vw;
+}
+
+#find-the-weather {
+    font-weight: bold;
+    padding-bottom: 20px;
 }
 
 .container {

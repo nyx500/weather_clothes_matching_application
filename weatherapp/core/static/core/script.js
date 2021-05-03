@@ -59,7 +59,10 @@ function get_data(city, time, units) {
                 document.querySelector('#main').append(error_message);
             } else {
                 var units = response['units'].charAt(0).toUpperCase() + response['units'].slice(1);
-                document.querySelector('#main').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees ${units}. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']}. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`
+                var heading = document.createElement('h1');
+                heading.innerHTML = `Weather Results for ${response['region']}`;
+                document.querySelector('#main_text').insertBefore(heading, document.querySelector('#main_text').firstChild);
+                document.querySelector('#information').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees ${units}. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']}. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`
                 let assessment = document.createElement('h5');
                 assessment.id = 'assessment';
                 history.pushState({ city: city }, ``, `/city/${city}/`)
@@ -118,6 +121,7 @@ function get_data(city, time, units) {
                     var attribution_text = document.createElement('p');
                     attribution_text.className = 'attribution-text';
                     attribution_text.innerHTML = recipe['recipe'];
+                    document.querySelector('#weather-form').style.display = 'none';
                     document.querySelector(`#recipe-index${index}`).append(footer);
                     document.querySelector(`#footer${index}`).append(user);
                     document.querySelector(`#footer${index}`).append(attribution);
@@ -127,7 +131,7 @@ function get_data(city, time, units) {
                     document.querySelector(`#recipe-body${index}`).append(desc);
                     document.querySelector(`#recipe-body${index}`).append(types);
                 });
-                document.querySelector('#main').append(assessment);
+                document.querySelector('#information').append(assessment);
             }
         })
 }
@@ -146,6 +150,9 @@ function get_form_input() {
         submit_error.innerHTML = "You have to submit a valid location."
         document.querySelector('#main').append(submit_error);
     } else {
+        var information = document.createElement('div');
+        information.id = 'information';
+        document.querySelector('#main').append(information);
         window.time = if_checked();
         window.units = which_temperature();
         get_data(window.city, window.time, window.units);
