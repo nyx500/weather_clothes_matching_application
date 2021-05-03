@@ -21,9 +21,16 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 window.onpopstate = function(event) {
-    history.replaceState({ city: 'no city' }, ``, ``);
-    console.log(`STATE: location: ${document.location}, state: ${JSON.stringify(event.state)}`);
-    window.location.reload();
+    var state = event.state;
+    if (state == null) {
+        console.log(`State on pop state: ${state}`);
+        window.location.reload();
+    } else if (state["city"] === 'no city') {
+        console.log(`State on pop state: ${state["city"]}`);
+        window.location.reload();
+    } else {
+        console.log(`State on pop state: ${state["city"]}`);
+    }
 }
 
 
@@ -66,13 +73,19 @@ function get_data(city, time, units) {
                 error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
                 document.querySelector('#main').append(error_message);
             } else {
-                history.pushState({ city: city }, ``, `/city/${city}/`);
+                console.log(`State before running fetch data: ${history.state}`);
+                history.replaceState({ city: city }, ``, `/city/${city}/`);
+                console.log(`State after running fetch data: ${history.state["city"]}`);
                 var information = document.createElement('div');
                 information.id = 'information';
                 document.querySelector('#main').append(information);
                 var units = response['units'].charAt(0).toUpperCase() + response['units'].slice(1);
+                if (document.querySelector('#heading')) {
+                    document.querySelector('#heading').remove();
+                }
                 var heading = document.createElement('h1');
                 heading.innerHTML = `Weather Results for ${response['region']}`;
+                heading.id = 'heading';
                 document.querySelector('#main_text').insertBefore(heading, document.querySelector('#main_text').firstChild);
                 document.querySelector('#information').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees ${units}. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']}. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`
                 let assessment = document.createElement('h5');
