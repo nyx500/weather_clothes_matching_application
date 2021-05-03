@@ -3,7 +3,7 @@
 
 {% block div %}
 
-    <h1 style="text-align: center; margin-bottom:50px;"><b>All Recipes</b></h1>
+    <h1 id="all-recipes" style="text-align: center; margin-bottom:50px;"><b>All Recipes</b></h1>
     <div id="flex-container" style="display:flex; flex-direction: row; flex-wrap: wrap;justify-content: space-around; align-content: baseline; align-items: flex-start;">
         {% for recipe in recipes %}
             <div class="card recipe-card" style="flex-grow: 1; flex-shrink: 1; width:25rem; order: {{ forloop.counter}}; margin:5px;">

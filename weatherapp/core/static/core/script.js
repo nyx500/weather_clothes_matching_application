@@ -1,5 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    if (document.querySelector('#weather-form')) {
+        history.pushState({ city: 'none_yet' }, ``, ``);
+    }
+
+    if (history.state !== null) {
+        console.log(`State 1: ${history.state["city"]}`);
+    } else {
+        console.log(`State 1: null`);
+    }
+
     var x = get_default();
 
     document.onkeydown = (e) => {
@@ -22,14 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 window.onpopstate = function(event) {
     var state = event.state;
-    if (state == null) {
-        console.log(`State on pop state: ${state}`);
-        window.location.reload();
-    } else if (state["city"] === 'no city') {
-        console.log(`State on pop state: ${state["city"]}`);
+    if (state !== null) {
+        console.log(`State 2: ${state['city']}, Window.location: ${window.location}`);
         window.location.reload();
     } else {
-        console.log(`State on pop state: ${state["city"]}`);
+        console.log(`State 3: ${state}, Window.location: ${window.location}`);
+        window.location.reload();
     }
 }
 
@@ -73,9 +81,7 @@ function get_data(city, time, units) {
                 error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
                 document.querySelector('#main').append(error_message);
             } else {
-                console.log(`State before running fetch data: ${history.state}`);
                 history.replaceState({ city: city }, ``, `/city/${city}/`);
-                console.log(`State after running fetch data: ${history.state["city"]}`);
                 var information = document.createElement('div');
                 information.id = 'information';
                 document.querySelector('#main').append(information);
