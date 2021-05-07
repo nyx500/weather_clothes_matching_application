@@ -11,11 +11,13 @@
                     console.log(`Recipe ${recipe.id}:`);
                     let id = recipe.id;
                     let this_list = recipe.getElementsByTagName('ul')[0].children;
-                    let array = [];
+                    let answer = 'No';
                     for (let i = 0; i < this_list.length; i++) {
-                        array.push(this_list[i].innerHTML);
+                        if (this_list[i].innerHTML === 'Wet and rainy') {
+                            answer = 'Yes';
+                        }
                     }
-                    console.log(array);
+                    console.log(answer);
                 })
             }
         })
