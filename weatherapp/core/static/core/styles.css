@@ -164,6 +164,13 @@ button {
     font-size: 18px;
 }
 
+.filter {
+    background-color: ivory;
+    border: 1px solid ivory;
+    border-radius: 8px;
+    margin: 10px;
+}
+
 .field {
     display: flex;
     flex-direction: column;

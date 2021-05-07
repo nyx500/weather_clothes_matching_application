@@ -12,9 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var x = get_default();
 
-    document.onkeydown = (e) => {
-        if (e.key == 'Enter') {
-            get_form_input();
+    if (document.querySelector('#weather-form')) {
+        document.onkeydown = (e) => {
+            if (e.key == 'Enter') {
+                get_form_input();
+            }
         }
     }
 

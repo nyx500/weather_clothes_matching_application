@@ -20,10 +20,32 @@
                     console.log(answer);
                 })
             }
+
+            document.onkeydown = (e) => {
+                if (e.key == 'Enter') {
+                    const checkboxes = document.querySelectorAll('input');
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked === true) {
+                            alert(checkboxes[i].parentElement.textContent);
+                            console.log(checkboxes[i].parentElement.textContent);
+                        }
+                    }
+                }
+            }
         })
     </script>
 
     <h1 id="all-recipes"><b>All Recipes</b></h1>
+    <div class="filter field">
+        <div class="label">
+            Type of weather:
+        </div>
+        <div class="input">
+            {% for checkbox in form.weather %}
+                {{ checkbox }}
+            {% endfor %}
+        </div>
+    </div>
     <div id="flex-container" >
         {% for recipe in recipes %}
             <div id="{{ forloop.counter }}" class="card recipe-card" style="order: {{ forloop.counter}};">
