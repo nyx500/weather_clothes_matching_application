@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         weatherFilter("weather");
         weatherFilter("cuisine");
+        weatherFilter("diet");
     }
 
     document.onkeydown = (e) => {
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             weatherFilter("weather");
             weatherFilter("cuisine");
+            weatherFilter("diet");
         }
     }
 
@@ -45,14 +47,10 @@ function weatherFilter(filter_type) {
         if (filter_type === 'weather') {
             recipe['x'] = false;
             let recipeProperties = recipe.getElementsByTagName('ul')[0].children;
-            if (choices.length === 0) {
-                recipe['x'] = true;
-            } else {
-                for (let i = 0; i < recipeProperties.length; i++) {
-                    for (let j = 0; j < choices.length; j++) {
-                        if (recipeProperties[i].innerHTML === choices[j]) {
-                            recipe['x'] = true;
-                        }
+            for (let i = 0; i < recipeProperties.length; i++) {
+                for (let j = 0; j < choices.length; j++) {
+                    if (recipeProperties[i].innerHTML === choices[j]) {
+                        recipe['x'] = true;
                     }
                 }
             }
