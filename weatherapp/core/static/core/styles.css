@@ -193,6 +193,15 @@ button {
 
 .field .input ul {
     list-style-type: none;
+    order: 3;
+}
+
+.field button {
+    order: 4;
+    align-self: flex-end;
+    background-color: blue!important;
+    color: white;
+    box-shadow: 2px 2px 6px grey;
 }
 
 .card:nth-child(odd):last-of-type {}
