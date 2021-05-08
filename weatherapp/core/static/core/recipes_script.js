@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function weatherFilter() {
-    let weatherChoices = [];
-    const weatherCheckboxes = document.getElementById('weather-filter').getElementsByTagName('input');
-    for (let i = 0; i < weatherCheckboxes.length; i++) {
-        if (weatherCheckboxes[i].checked === true) {
-            weatherChoices.push(weatherCheckboxes[i].parentElement.textContent.slice(2));
+    let choices = [];
+    const checkboxes = document.getElementById('weather-filter').getElementsByTagName('input');
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked === true) {
+            choices.push(checkboxes[i].parentElement.textContent.slice(2));
         }
     }
     if (document.querySelector('.recipe-card')) {
@@ -33,11 +33,11 @@ function weatherFilter() {
             recipe.style.display = 'none';
         })
         recipes.forEach(recipe => {
-            let recipeWeatherTypes = recipe.getElementsByTagName('ul')[0].children;
+            let weathers = recipe.getElementsByTagName('ul')[0].children;
             var displayRecipe = false;
-            for (let i = 0; i < recipeWeatherTypes.length; i++) {
-                for (let j = 0; j < weatherChoices.length; j++) {
-                    if (recipeWeatherTypes[i].innerHTML === weatherChoices[j]) {
+            for (let i = 0; i < weathers.length; i++) {
+                for (let j = 0; j < choices.length; j++) {
+                    if (weathers[i].innerHTML === choices[j]) {
                         displayRecipe = true;
                     }
                 }
