@@ -45,10 +45,14 @@ function weatherFilter(filter_type) {
         if (filter_type === 'weather') {
             recipe['x'] = false;
             let recipeProperties = recipe.getElementsByTagName('ul')[0].children;
-            for (let i = 0; i < recipeProperties.length; i++) {
-                for (let j = 0; j < choices.length; j++) {
-                    if (recipeProperties[i].innerHTML === choices[j]) {
-                        recipe['x'] = true;
+            if (choices.length === 0) {
+                recipe['x'] = true;
+            } else {
+                for (let i = 0; i < recipeProperties.length; i++) {
+                    for (let j = 0; j < choices.length; j++) {
+                        if (recipeProperties[i].innerHTML === choices[j]) {
+                            recipe['x'] = true;
+                        }
                     }
                 }
             }
@@ -58,10 +62,18 @@ function weatherFilter(filter_type) {
                 recipe.style.display = 'block';
             }
         } else {
-            console.log(`Choices: ${choices}`);
-            var isChoice = recipe.getElementsByClassName(`${choices[0]}`);
-            if (isChoice.length === 1) {
-                console.log("X");
+            for (let i = 0; i < choices.length; i++) {
+                var isChoice = recipe.getElementsByClassName(`${choices[i]}`);
+                if (isChoice.length === 1) {
+                    if (recipe['x'] === false) {
+                        recipe['x'] = true;
+                    }
+                }
+            }
+            if (recipe['x']) {
+                recipe.style.display = 'block';
+            } else {
+                recipe.style.display = 'none';
             }
         }
     })
