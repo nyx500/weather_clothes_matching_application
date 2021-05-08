@@ -6,14 +6,53 @@
     <script src="{% static '/core/recipes_script.js'%}"></script>
 
     <h1 id="all-recipes"><b>All Recipes</b></h1>
+    <button id="select-filters" class="btn btn-link">Select Filters</button>
     <div class="filter field">
-        <div class="label">
-            Type of weather:
+        <div id="weather-filter-container">
+            <div class="label">
+                Type of weather:
+            </div>
+            <div id="weather-filter" class="input">
+                {% for checkbox in form.weather %}
+                    {{ checkbox }}
+                {% endfor %}
+            </div>
         </div>
-        <div id="weather-filter" class="input">
-            {% for checkbox in form.weather %}
-                {{ checkbox }}
-            {% endfor %}
+        <div id="cuisine-filter-container">
+            <div class="label">
+                Cuisine:
+            </div>
+            <div id="cuisine-filter" class="input">
+                {% for checkbox in form.food_type %}
+                    {% if forloop.counter != 1 %}
+                        {{ checkbox }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="meal-filter-container">
+            <div class="label">
+                Type of Meal:
+            </div>
+            <div id="meal-filter" class="input">
+                {% for checkbox in form.meals %}
+                    {% if forloop.counter != 1 %}
+                        {{ checkbox }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="diet-filter-container">
+            <div class="label">
+                Diet:
+            </div>
+            <div id="diet-filter" class="input">
+                {% for checkbox in form.diets %}
+                    {% if forloop.counter > 2 %}
+                        {{ checkbox }}
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
         <button id="apply" class="btn btn-outline-dark">Apply Filter</button>
     </div>

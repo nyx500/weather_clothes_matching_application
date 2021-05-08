@@ -104,7 +104,7 @@ def get_city(request, city):
 
 def recipes(request):
     return render(request, "core/recipes.html", {
-        'recipes': Recipe.objects.all().order_by('-time'), 'form': RecipeForm()
+        'recipes': Recipe.objects.all().order_by('-time'), 'form': FilterForm()
     })
 
 

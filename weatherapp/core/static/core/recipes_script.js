@@ -7,6 +7,16 @@ document.addEventListener('DOMContentLoaded', function() {
             weatherFilter();
         }
     }
+
+    document.querySelector('#select-filters').onclick = () => {
+        if (document.querySelector('#select-filters').innerHTML === 'Select Filters') {
+            document.querySelector('.field').style.display = 'flex';
+            document.querySelector('#select-filters').innerHTML = 'Hide Filters';
+        } else {
+            document.querySelector('.field').style.display = 'none';
+            document.querySelector('#select-filters').innerHTML = 'Select Filters';
+        }
+    }
 })
 
 function weatherFilter() {

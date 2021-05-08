@@ -16,3 +16,14 @@ class RecipeForm(ModelForm):
             'diets': forms.Select(attrs={'style': 'width:200px'}),
             'meals': forms.Select(attrs={'style': 'width:200px'}),
         }
+
+class FilterForm(ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['weather', 'food_type', 'diets', 'meals']
+        widgets = {
+            'weather': forms.CheckboxSelectMultiple(),
+            'food_type': forms.CheckboxSelectMultiple(),
+            'diets': forms.CheckboxSelectMultiple(),
+            'meals': forms.CheckboxSelectMultiple(),
+        }
