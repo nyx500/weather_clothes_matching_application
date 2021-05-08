@@ -66,9 +66,9 @@
                 <div class="card-body">
                     <p class="desc">{{ recipe.description }}<p>
                     <div class="food-types">
-                        <h6><b>Cuisine:</b> {{ recipe.food_type }}</h6>
-                        <h6><b>Specialised Diet:</b> {{ recipe.diets }}</h6>
-                        <h6><b>Meal Time:</b> {{ recipe.meals }}</h6>
+                        <h6><b>Cuisine:</b></h6><h6 class="{{ recipe.food_type }}">{{ recipe.food_type }}</h6>
+                        <h6><b>Specialised Diet:</b></h6><h6 class="{{ recipe.diets }}">{{ recipe.diets }}</h6>
+                        <h6><b>Meal Time:</b></h6><h6 class="{{ recipe.meals }}">{{ recipe.meals }}</h6>
                     </div>
                     <h6 class="appropriate-weather"><b>Suited for:</b>
                         <ul id="weather-list{{ forloop.counter }}" class="list-inline">

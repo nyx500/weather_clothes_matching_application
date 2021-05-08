@@ -1,10 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelector('#apply').onclick = weatherFilter;
+    if (document.querySelector('.recipe-card')) {
+        window.recipes = document.querySelectorAll('.recipe-card');
+    }
+
+    document.querySelector('#apply').onclick = () => {
+        window.recipes.forEach(recipe => {
+            recipe.style.display = 'none';
+        });
+        weatherFilter("weather");
+        weatherFilter("cuisine");
+    }
 
     document.onkeydown = (e) => {
         if (e.key == 'Enter') {
-            weatherFilter();
+            window.recipes.forEach(recipe => {
+                recipe.style.display = 'none';
+            });
+            weatherFilter("weather");
+            weatherFilter("cuisine");
         }
     }
 
@@ -19,34 +33,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 })
 
-function weatherFilter() {
+function weatherFilter(filter_type) {
     let choices = [];
-    const checkboxes = document.getElementById('weather-filter').getElementsByTagName('input');
+    const checkboxes = document.getElementById(`${filter_type}-filter`).getElementsByTagName('input');
     for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked === true) {
             choices.push(checkboxes[i].parentElement.textContent.slice(2));
         }
     }
-    if (document.querySelector('.recipe-card')) {
-        const recipes = document.querySelectorAll('.recipe-card');
-        recipes.forEach(recipe => {
-            recipe.style.display = 'none';
-        })
-        recipes.forEach(recipe => {
-            let weathers = recipe.getElementsByTagName('ul')[0].children;
-            var displayRecipe = false;
-            for (let i = 0; i < weathers.length; i++) {
+    window.recipes.forEach(recipe => {
+        if (filter_type === 'weather') {
+            recipe['x'] = false;
+            let recipeProperties = recipe.getElementsByTagName('ul')[0].children;
+            for (let i = 0; i < recipeProperties.length; i++) {
                 for (let j = 0; j < choices.length; j++) {
-                    if (weathers[i].innerHTML === choices[j]) {
-                        displayRecipe = true;
+                    if (recipeProperties[i].innerHTML === choices[j]) {
+                        recipe['x'] = true;
                     }
                 }
             }
-            if (displayRecipe === false) {
+            if (recipe['x'] === false) {
                 recipe.style.display = 'none';
             } else {
                 recipe.style.display = 'block';
             }
-        })
-    }
+        } else {
+            console.log(`Choices: ${choices}`);
+            var isChoice = recipe.getElementsByClassName(`${choices[0]}`);
+            if (isChoice.length === 1) {
+                console.log("X");
+            }
+        }
+    })
 }
