@@ -19,10 +19,24 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#weather-filter-container').style.display = 'none';
         window.recipes.forEach(recipe => {
             if (recipe['weather_select']) {
-                console.log(true);
                 recipe.style.display = 'block';
             } else {
-                console.log(false);
+                recipe.style.display = 'none';
+            }
+        });
+    }
+
+    document.querySelector('#choose-weather-all').onclick = () => {
+        window.recipes.forEach(recipe => {
+            recipe['weather_select'] = true;
+        });
+        document.querySelector('#flex-container').style.display = 'flex';
+        document.querySelector('#select-filters').style.display = 'block';
+        document.querySelector('#weather-filter-container').style.display = 'none';
+        window.recipes.forEach(recipe => {
+            if (recipe['weather_select']) {
+                recipe.style.display = 'block';
+            } else {
                 recipe.style.display = 'none';
             }
         });
@@ -30,16 +44,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector('#apply').onclick = () => {
         window.recipes.forEach(recipe => {
-            recipe['filter_select'] = true;
+            for (let i = 0; i < filters.length; i++) {
+                recipe[`${filters[i]}`] = false;
+            }
         });
         for (let i = 0; i < filters.length; i++) {
             let selectedChoices = findIfFilters(filters[i]);
             if (selectedChoices.length > 0) {
-                filter(filter[i], selectedChoices);
+                filter(filters[i], selectedChoices);
             }
         }
         window.recipes.forEach(recipe => {
-            if (recipe['weather_select'] && recipe['filter_select']) {
+            console.log(recipe['weather_select']);
+            console.log(recipe['cuisine']);
+            if (recipe['weather_select'] && recipe['cuisine']) {
                 recipe.style.display = 'block';
             } else {
                 recipe.style.display = 'none';
@@ -83,8 +101,8 @@ function filter(filter_type, choices) {
         } else {
             for (let i = 0; i < choices.length; i++) {
                 var typeTag = recipe.getElementsByClassName(`${choices[i]}`);
-                if (typeTag.length === 0) {
-                    recipe['filter_select'] = false;
+                if (typeTag.length === 1) {
+                    recipe[`${filter_type}`] = true;
                 }
             }
         }
