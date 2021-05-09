@@ -4,24 +4,47 @@ document.addEventListener('DOMContentLoaded', function() {
         window.recipes = document.querySelectorAll('.recipe-card');
     }
 
-    document.querySelector('#apply').onclick = () => {
+    const filters = ["cuisine", "meal", "diet"];
+
+    document.querySelector('#choose-weather').onclick = () => {
         window.recipes.forEach(recipe => {
-            recipe.style.display = 'none';
+            recipe['weather_select'] = false;
         });
-        weatherFilter("weather");
-        weatherFilter("cuisine");
-        weatherFilter("diet");
+        let selectedChoices = findIfFilters("weather");
+        if (selectedChoices.length > 0) {
+            filter("weather", selectedChoices);
+        }
+        document.querySelector('#flex-container').style.display = 'flex';
+        document.querySelector('#select-filters').style.display = 'block';
+        document.querySelector('#weather-filter-container').style.display = 'none';
+        window.recipes.forEach(recipe => {
+            if (recipe['weather_select']) {
+                console.log(true);
+                recipe.style.display = 'block';
+            } else {
+                console.log(false);
+                recipe.style.display = 'none';
+            }
+        });
     }
 
-    document.onkeydown = (e) => {
-        if (e.key == 'Enter') {
-            window.recipes.forEach(recipe => {
-                recipe.style.display = 'none';
-            });
-            weatherFilter("weather");
-            weatherFilter("cuisine");
-            weatherFilter("diet");
+    document.querySelector('#apply').onclick = () => {
+        window.recipes.forEach(recipe => {
+            recipe['filter_select'] = true;
+        });
+        for (let i = 0; i < filters.length; i++) {
+            let selectedChoices = findIfFilters(filters[i]);
+            if (selectedChoices.length > 0) {
+                filter(filter[i], selectedChoices);
+            }
         }
+        window.recipes.forEach(recipe => {
+            if (recipe['weather_select'] && recipe['filter_select']) {
+                recipe.style.display = 'block';
+            } else {
+                recipe.style.display = 'none';
+            }
+        });
     }
 
     document.querySelector('#select-filters').onclick = () => {
@@ -35,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 })
 
-function weatherFilter(filter_type) {
+function findIfFilters(filter_type) {
     let choices = [];
     const checkboxes = document.getElementById(`${filter_type}-filter`).getElementsByTagName('input');
     for (let i = 0; i < checkboxes.length; i++) {
@@ -43,35 +66,26 @@ function weatherFilter(filter_type) {
             choices.push(checkboxes[i].parentElement.textContent.slice(2));
         }
     }
+    return choices;
+}
+
+function filter(filter_type, choices) {
     window.recipes.forEach(recipe => {
         if (filter_type === 'weather') {
-            recipe['x'] = false;
             let recipeProperties = recipe.getElementsByTagName('ul')[0].children;
             for (let i = 0; i < recipeProperties.length; i++) {
                 for (let j = 0; j < choices.length; j++) {
                     if (recipeProperties[i].innerHTML === choices[j]) {
-                        recipe['x'] = true;
+                        recipe['weather_select'] = true;
                     }
                 }
-            }
-            if (recipe['x'] === false) {
-                recipe.style.display = 'none';
-            } else {
-                recipe.style.display = 'block';
             }
         } else {
             for (let i = 0; i < choices.length; i++) {
-                var isChoice = recipe.getElementsByClassName(`${choices[i]}`);
-                if (isChoice.length === 1) {
-                    if (recipe['x'] === false) {
-                        recipe['x'] = true;
-                    }
+                var typeTag = recipe.getElementsByClassName(`${choices[i]}`);
+                if (typeTag.length === 0) {
+                    recipe['filter_select'] = false;
                 }
-            }
-            if (recipe['x']) {
-                recipe.style.display = 'block';
-            } else {
-                recipe.style.display = 'none';
             }
         }
     })

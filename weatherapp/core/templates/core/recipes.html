@@ -5,19 +5,20 @@
 
     <script src="{% static '/core/recipes_script.js'%}"></script>
 
-    <h1 id="all-recipes"><b>All Recipes</b></h1>
+    <div id="weather-filter-container">
+        <div class="label">
+            <h3><b>Which Kind Of Weather Would You Like To Find Recipe Suggestions For?</b></h3>
+        </div>
+        <br>
+        <div id="weather-filter" class="input">
+            {% for checkbox in form.weather %}
+                {{ checkbox }}
+            {% endfor %}
+        </div>
+        <button id="choose-weather" class="btn btn-dark">Submit</button>
+    </div>
     <button id="select-filters" class="btn btn-link">Select Filters</button>
     <div class="filter field">
-        <div id="weather-filter-container">
-            <div class="label">
-                Type of weather:
-            </div>
-            <div id="weather-filter" class="input">
-                {% for checkbox in form.weather %}
-                    {{ checkbox }}
-                {% endfor %}
-            </div>
-        </div>
         <div id="cuisine-filter-container">
             <div class="label">
                 Cuisine:
@@ -56,7 +57,7 @@
         </div>
         <button id="apply" class="btn btn-outline-dark">Apply Filter</button>
     </div>
-    <div id="flex-container" >
+    <div id="flex-container">
         {% for recipe in recipes %}
             <div id="{{ forloop.counter }}" class="card recipe-card" style="order: {{ forloop.counter}};">
                 <div class="card-title">

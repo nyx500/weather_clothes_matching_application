@@ -166,10 +166,28 @@ button {
 
 #select-filters {
     margin: 0 auto;
-    display: block;
+    margin-top: 50px!important;
+    display: none;
     margin-bottom: 20px;
     width: 60vw;
     background-color: white;
+}
+
+#weather-filter-container {
+    padding: 5px;
+    margin: 5px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#weather-filter {
+    background-color: plum;
+    border: 1px solid plum;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 .filter {
@@ -200,16 +218,8 @@ button {
     border-radius: 8px;
 }
 
-#weather-filter-container {
-    order: 1;
-    background-color: lightyellow;
-    border: 1px solid lightyellow;
-    padding: 5px;
-    margin: 5px;
-}
-
 #cuisine-filter-container {
-    order: 2;
+    order: 1;
     background-color: lightpink;
     border: 1px solid lightpink;
     padding: 5px;
@@ -217,7 +227,7 @@ button {
 }
 
 #meal-filter-container {
-    order: 3;
+    order: 2;
     background-color: lightgreen;
     border: 1px solid lightgreen;
     padding: 5px;
@@ -225,15 +235,15 @@ button {
 }
 
 #diet-filter-container {
-    order: 4;
+    order: 3;
     background-color: lavender;
     border: 1px solid lavender;
     padding: 5px;
     margin: 5px;
 }
 
-.field button {
-    order: 5;
+#apply {
+    order: 4;
     align-self: flex-end;
     background-color: blue!important;
     color: white;
@@ -287,7 +297,7 @@ button {
 }
 
 #flex-container {
-    display: flex;
+    display: none;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
