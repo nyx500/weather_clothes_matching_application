@@ -5,6 +5,9 @@
 
     <script src="{% static '/core/recipes_script.js'%}"></script>
 
+    
+    <h1 id='recipes-title'>Recipe Suggestions</h1>
+    
     <div id="weather-filter-container">
         <div class="label">
             <h3><b>Which Kind Of Weather Would You Like To Find Recipe Suggestions For?</b></h3>
@@ -14,6 +17,9 @@
             {% for checkbox in form.weather %}
                 {{ checkbox }}
             {% endfor %}
+        </div>
+        <div id="no-filter-chosen" class="error">
+            <h4><b>Please select a filter!</b></h4>
         </div>
         <span>
             <button id="choose-weather" class="btn btn-danger">Apply Filters</button>
@@ -58,9 +64,9 @@
                 {% endfor %}
             </div>
         </div>
-        <button id="apply" class="btn btn-outline-dark">Apply Filter</button>
+        <button id="apply" class="btn btn-outline-dark">Apply Filters</button>
     </div>
-    <div id='no-matches'>
+    <div id='no-matches' class="error">
         <h4><b>No matches found. Try another search.</b></h4>
     </div>
     <div id="flex-container">

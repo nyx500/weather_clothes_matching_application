@@ -170,7 +170,10 @@ button {
     display: none;
     margin-bottom: 20px;
     width: 60vw;
-    background-color: white;
+    background-color: lightcyan;
+    border: 1px solid cyan;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px;
 }
 
 #weather-filter-container {
@@ -181,6 +184,7 @@ button {
     padding-right: 100px;
     min-width: 70%;
     margin: 5px;
+    margin-left: 5rem;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -206,8 +210,13 @@ button {
     color: white;
 }
 
-#weather-filter-container span {
+#no-filter-chosen {
     order: 3;
+    display: none;
+}
+
+#weather-filter-container span {
+    order: 4;
     align-self: center;
     margin-top: 20px;
 }
@@ -215,10 +224,10 @@ button {
 .filter {
     border-radius: 8px;
     margin: 10px;
+    display: none;
 }
 
 .field {
-    display: none;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -262,6 +271,12 @@ button {
     border: 1px solid lavender;
     padding: 5px;
     margin: 5px;
+}
+
+#recipes-title {
+    display: none;
+    text-align: center;
+    padding-top: 50px;
 }
 
 #apply {
@@ -411,7 +426,7 @@ button {
     margin: 5px;
 }
 
-#no-matches {
-    display: none;
+.error {
     text-align: center;
+    display: none;
 }

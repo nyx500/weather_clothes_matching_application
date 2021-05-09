@@ -71,7 +71,7 @@ class Recipe(models.Model):
 
     weather = models.ManyToManyField(Weather, related_name='recipes')
 
-    NONE = 'None'
+    EVERYTHING = 'Everything'
     CARNIVORE = 'Carnivore'
     DIABETIC = 'Diabetic'
     GLUTEN_FREE = 'Gluten Free'
@@ -81,7 +81,7 @@ class Recipe(models.Model):
     VEGETARIAN = 'Vegetarian'
 
     DIETS = [
-        (NONE, ('None')),
+        (EVERYTHING, ('Everything')),
         (CARNIVORE, ('Carnivore')),
         (DIABETIC, ('Diabetic')),
         (GLUTEN_FREE, ('Gluten Free')),

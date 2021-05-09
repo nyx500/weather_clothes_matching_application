@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('.recipe-card')) {
         window.recipes = document.querySelectorAll('.recipe-card');
     }
-
     const filters = ["cuisine", "meal", "diet"];
 
     document.querySelector('#choose-weather').onclick = () => {
@@ -11,23 +10,29 @@ document.addEventListener('DOMContentLoaded', function() {
             recipe['weather'] = false;
         });
         let selectedChoices = findIfFilters("weather");
-        filter("weather", selectedChoices);
-        document.querySelector('#flex-container').style.display = 'flex';
-        document.querySelector('#select-filters').style.display = 'block';
-        document.querySelector('#weather-filter-container').style.display = 'none';
-        window.recipes.forEach(recipe => {
-            if (recipe['weather']) {
-                recipe.style.display = 'block';
-            } else {
-                recipe.style.display = 'none';
-            }
-        });
+        if (selectedChoices.length === 0) {
+            document.querySelector('#no-filter-chosen').style.display = 'block';
+        } else {
+            filter("weather", selectedChoices);
+            document.querySelector('#recipes-title').style.display = 'block';
+            document.querySelector('#flex-container').style.display = 'flex';
+            document.querySelector('#select-filters').style.display = 'block';
+            document.querySelector('#weather-filter-container').style.display = 'none';
+            window.recipes.forEach(recipe => {
+                if (recipe['weather']) {
+                    recipe.style.display = 'block';
+                } else {
+                    recipe.style.display = 'none';
+                }
+            });
+        }
     }
 
     document.querySelector('#choose-weather-all').onclick = () => {
         window.recipes.forEach(recipe => {
             recipe['weather'] = true;
         });
+        document.querySelector('#recipes-title').style.display = 'block';
         document.querySelector('#flex-container').style.display = 'flex';
         document.querySelector('#select-filters').style.display = 'block';
         document.querySelector('#weather-filter-container').style.display = 'none';
@@ -49,36 +54,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         for (let i = 0; i < filters.length; i++) {
             let selectedChoices = findIfFilters(filters[i]);
-            console.log(`Selected choices: ${selectedChoices}`);
             filter(filters[i], selectedChoices);
         }
         var noRecipes = true;
         window.recipes.forEach(recipe => {
-            console.log(recipe['weather']);
-            console.log(recipe['cuisine']);
-            console.log(recipe['meal']);
-            console.log(recipe['diet']);
             if (recipe['weather'] && recipe['cuisine'] && recipe['meal'] && recipe['diet']) {
-                console.log(`Recipe ${recipe.id}: ${true}`);
                 recipe.style.display = 'block';
                 noRecipes = false;
             } else {
-                console.log(`Recipe ${recipe.id}: ${false}`);
                 recipe.style.display = 'none';
             }
         });
         if (noRecipes === true) {
-            console.log('TRUE');
             document.querySelector('#no-matches').style.display = 'block';
         }
     }
 
     document.querySelector('#select-filters').onclick = () => {
         if (document.querySelector('#select-filters').innerHTML === 'Select Filters') {
-            document.querySelector('.field').style.display = 'flex';
+            document.querySelector('.filter').style.display = 'flex';
             document.querySelector('#select-filters').innerHTML = 'Hide Filters';
         } else {
-            document.querySelector('.field').style.display = 'none';
+            document.querySelector('.filter').style.display = 'none';
             document.querySelector('#select-filters').innerHTML = 'Select Filters';
         }
     }
@@ -118,6 +115,11 @@ function filter(filter_type, choices) {
                 var typeTag = recipe.getElementsByClassName(`${choices[i]}`);
                 if (typeTag.length === 1) {
                     recipe[`${filter_type}`] = true;
+                }
+                if (filter_type === 'diet') {
+                    if (choices[i] === 'Everything') {
+                        recipe[`${filter_type}`] = true;
+                    }
                 }
             }
         }
