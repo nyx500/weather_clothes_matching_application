@@ -410,3 +410,8 @@ button {
     border: 1px solid lightblue;
     margin: 5px;
 }
+
+#no-matches {
+    display: none;
+    text-align: center;
+}

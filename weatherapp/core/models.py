@@ -81,7 +81,7 @@ class Recipe(models.Model):
     VEGETARIAN = 'Vegetarian'
 
     DIETS = [
-        (NONE, ('No special diet')),
+        (NONE, ('None')),
         (CARNIVORE, ('Carnivore')),
         (DIABETIC, ('Diabetic')),
         (GLUTEN_FREE, ('Gluten Free')),

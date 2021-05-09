@@ -8,17 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector('#choose-weather').onclick = () => {
         window.recipes.forEach(recipe => {
-            recipe['weather_select'] = false;
+            recipe['weather'] = false;
         });
         let selectedChoices = findIfFilters("weather");
-        if (selectedChoices.length > 0) {
-            filter("weather", selectedChoices);
-        }
+        filter("weather", selectedChoices);
         document.querySelector('#flex-container').style.display = 'flex';
         document.querySelector('#select-filters').style.display = 'block';
         document.querySelector('#weather-filter-container').style.display = 'none';
         window.recipes.forEach(recipe => {
-            if (recipe['weather_select']) {
+            if (recipe['weather']) {
                 recipe.style.display = 'block';
             } else {
                 recipe.style.display = 'none';
@@ -28,13 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector('#choose-weather-all').onclick = () => {
         window.recipes.forEach(recipe => {
-            recipe['weather_select'] = true;
+            recipe['weather'] = true;
         });
         document.querySelector('#flex-container').style.display = 'flex';
         document.querySelector('#select-filters').style.display = 'block';
         document.querySelector('#weather-filter-container').style.display = 'none';
         window.recipes.forEach(recipe => {
-            if (recipe['weather_select']) {
+            if (recipe['weather']) {
                 recipe.style.display = 'block';
             } else {
                 recipe.style.display = 'none';
@@ -43,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.querySelector('#apply').onclick = () => {
+        document.querySelector('#no-matches').style.display = 'none';
         window.recipes.forEach(recipe => {
             for (let i = 0; i < filters.length; i++) {
                 recipe[`${filters[i]}`] = false;
@@ -50,19 +49,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         for (let i = 0; i < filters.length; i++) {
             let selectedChoices = findIfFilters(filters[i]);
-            if (selectedChoices.length > 0) {
-                filter(filters[i], selectedChoices);
-            }
+            console.log(`Selected choices: ${selectedChoices}`);
+            filter(filters[i], selectedChoices);
         }
+        var noRecipes = true;
         window.recipes.forEach(recipe => {
-            console.log(recipe['weather_select']);
+            console.log(recipe['weather']);
             console.log(recipe['cuisine']);
-            if (recipe['weather_select'] && recipe['cuisine']) {
+            console.log(recipe['meal']);
+            console.log(recipe['diet']);
+            if (recipe['weather'] && recipe['cuisine'] && recipe['meal'] && recipe['diet']) {
+                console.log(`Recipe ${recipe.id}: ${true}`);
                 recipe.style.display = 'block';
+                noRecipes = false;
             } else {
+                console.log(`Recipe ${recipe.id}: ${false}`);
                 recipe.style.display = 'none';
             }
         });
+        if (noRecipes === true) {
+            console.log('TRUE');
+            document.querySelector('#no-matches').style.display = 'block';
+        }
     }
 
     document.querySelector('#select-filters').onclick = () => {
@@ -89,12 +97,19 @@ function findIfFilters(filter_type) {
 
 function filter(filter_type, choices) {
     window.recipes.forEach(recipe => {
+        if (choices.length === 0) {
+            recipe[`${filter_type}`] = true;
+        }
         if (filter_type === 'weather') {
             let recipeProperties = recipe.getElementsByTagName('ul')[0].children;
             for (let i = 0; i < recipeProperties.length; i++) {
-                for (let j = 0; j < choices.length; j++) {
-                    if (recipeProperties[i].innerHTML === choices[j]) {
-                        recipe['weather_select'] = true;
+                if (choices.length === 0) {
+                    recipe[`${filter_type}`] = true;
+                } else {
+                    for (let j = 0; j < choices.length; j++) {
+                        if (recipeProperties[i].innerHTML === choices[j]) {
+                            recipe[`${filter_type}`] = true;
+                        }
                     }
                 }
             }

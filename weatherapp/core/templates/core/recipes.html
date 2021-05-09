@@ -52,13 +52,16 @@
             </div>
             <div id="diet-filter" class="input">
                 {% for checkbox in form.diets %}
-                    {% if forloop.counter > 2 %}
+                    {% if forloop.counter > 1 %}
                         {{ checkbox }}
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
         <button id="apply" class="btn btn-outline-dark">Apply Filter</button>
+    </div>
+    <div id='no-matches'>
+        <h4><b>No matches found. Try another search.</b></h4>
     </div>
     <div id="flex-container">
         {% for recipe in recipes %}
