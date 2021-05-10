@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    history.pushState({ recipes: 'unloaded' }, ``, '/recipes');
+
+    console.log(localStorage.getItem("recipes_loaded"));
+    console.log(window.performance.getEntriesByType("navigation")[0].type);
+
     if (document.querySelector('.recipe-card')) {
         window.recipes = document.querySelectorAll('.recipe-card');
     }
@@ -25,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     recipe.style.display = 'none';
                 }
             });
+            history.pushState({ recipes: 'loaded' }, ``, '/recipes');
         }
     }
 
@@ -43,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 recipe.style.display = 'none';
             }
         });
+        history.pushState({ recipes: 'loaded' }, ``, '/recipes');
     }
 
     document.querySelector('#apply').onclick = () => {
