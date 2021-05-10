@@ -5,12 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
         history.pushState({ city: 'none_yet' }, ``, ``);
     }
 
-    if (history.state !== null) {
-        console.log(`State 1: ${history.state["city"]}`);
-    } else {
-        console.log(`State 1: null`);
-    }
-
     var x = get_default();
 
     if (document.querySelector('#weather-form')) {
@@ -34,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 window.onpopstate = () => {
+    console.log(`pop, ${history.state}`);
     window.location.reload();
 }
 

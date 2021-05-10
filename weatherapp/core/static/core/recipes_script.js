@@ -1,9 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    history.pushState({ recipes: 'unloaded' }, ``, '/recipes');
 
-    console.log(localStorage.getItem("recipes_loaded"));
-    console.log(window.performance.getEntriesByType("navigation")[0].type);
+    if (history.state === null) {
+        console.log(`STATE WHEN PAGE IS LOADED: ${history.state}`);
+        history.replaceState({ recipes: 'unloaded' }, ``, '/recipes');
+        console.log(`STATE AFTER PUSH STATE IS ADDED: ${Object.values(history.state)}`);
+    } else {
+        console.log(`STATE WHEN PAGE IS LOADED: ${Object.values(history.state)}`);
+        history.replaceState({ recipes: 'unloaded' }, ``, '/recipes');
+        console.log(`STATE AFTER PUSH STATE IS ADDED: ${Object.values(history.state)}`);
+    }
+
+    window.onbeforeunload = () => {
+        if (history.state === null) {
+            console.log(`unbeforeunload: ${history.state}`);
+        } else {
+            console.log(`unbeforeunload 2: ${Object.values(history.state)}`);
+        }
+    }
+
+    console.log(performance.getEntriesByType("navigation")[0].type);
+
+    if (typeof history.state !== undefined && history.state !== null) {
+        if (typeof window.performance !== undefined) {
+            console.log(Object.values(history.state)[0]);
+            if (window.performance.getEntriesByType("navigation")[0].type === 'reload' && Object.values(history.state)[0] === 'unloaded') {
+                console.log("YES");
+            } else {
+                console.log(window.performance.getEntriesByType("navigation")[0].type);
+                if (history.state !== null) {
+                    console.log(typeof Object.values(history.state)[0]);
+                }
+                console.log("NO");
+            }
+        }
+    }
+
 
     if (document.querySelector('.recipe-card')) {
         window.recipes = document.querySelectorAll('.recipe-card');
@@ -30,7 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     recipe.style.display = 'none';
                 }
             });
-            history.pushState({ recipes: 'loaded' }, ``, '/recipes');
+            history.replaceState({ recipes: 'loaded' }, ``, '/recipes');
+            console.log(`STATE AFTER SELECTING WEATHER FILTERS: ${history.state.recipes}`);
         }
     }
 
@@ -50,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         history.pushState({ recipes: 'loaded' }, ``, '/recipes');
+        console.log(`STATE AFTER SELECTING ALL RECIPES: ${history.state.recipes}`);
     }
 
     document.querySelector('#apply').onclick = () => {
