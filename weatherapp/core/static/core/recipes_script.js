@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             filter("weather", selectedChoices);
             document.querySelector('#recipes-title').style.display = 'block';
-            document.querySelector('#flex-container').style.display = 'flex';
+            document.querySelector('#flex-container').style.display = 'grid';
             document.querySelector('#select-filters').style.display = 'block';
             document.querySelector('#weather-filter-container').style.display = 'none';
             window.recipes.forEach(recipe => {
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             recipe['weather'] = true;
         });
         document.querySelector('#recipes-title').style.display = 'block';
-        document.querySelector('#flex-container').style.display = 'flex';
+        document.querySelector('#flex-container').style.display = 'grid';
         document.querySelector('#select-filters').style.display = 'block';
         document.querySelector('#weather-filter-container').style.display = 'none';
         window.recipes.forEach(recipe => {

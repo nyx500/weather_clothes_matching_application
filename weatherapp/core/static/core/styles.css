@@ -16,8 +16,8 @@ input[type='text'] {
 }
 
 #main_text {
-    margin-left: 160px;
     padding: 0px 10px;
+    text-align: center;
 }
 
 .form-control {
@@ -72,77 +72,12 @@ button {
     color: red;
 }
 
-
-/* The sidebar menu */
-
-.sidenav {
-    height: 100%;
-    /* Full-height: remove this if you want "auto" height */
-    width: 160px;
-    /* Set the width of the sidebar */
-    position: fixed;
-    /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1;
-    /* Stay on top */
-    top: 0;
-    /* Stay at the top */
-    left: 0;
-    background-color: #111;
-    /* Black */
-    overflow-x: hidden;
-    /* Disable horizontal scroll */
-    padding-top: 20px;
+.navbar a {
+    margin-left: 20px;
 }
 
-
-/* The navigation menu links */
-
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-}
-
-
-/* When you mouse over the navigation links, change their color */
-
-.sidenav a:hover {
+.navbar a:hover {
     color: #f1f1f1;
-}
-
-
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-    .sidenav a {
-        font-size: 18px;
-    }
-    #main {
-        width: 100vw!important;
-        margin-left: 50px;
-        background-color: lightblue;
-        border: 1px solid lightblue;
-    }
-    .container {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-    }
-}
-
-@media screen and (max-width: 463px) {
-    #main {
-        background-color: lightblue;
-        border: 1px solid lightblue;
-    }
-    .container {
-        flex-wrap: wrap;
-        justify-content: flex-start;
-    }
 }
 
 #error {
@@ -287,23 +222,12 @@ button {
     box-shadow: 2px 2px 6px grey;
 }
 
-.card:nth-child(odd):last-of-type {}
-
 #recipe-container {
-    margin: auto;
-    margin-left: 160px;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: baseline;
-    align-content: flex-start;
-}
-
-.top-recipe {
-    margin: 10px;
-    min-width: 20rem;
-    padding: 20px;
+    padding: 0px 10px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .title {
@@ -335,33 +259,31 @@ button {
 
 #flex-container {
     display: none;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: baseline;
-    align-items: flex-start;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 .recipe-card {
-    flex-grow: 1;
-    flex-shrink: 1;
-    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    width: auto;
     margin: 5px;
 }
 
-.pseudo-card {
-    flex-grow: 1;
-    flex-shrink: 1;
-    width: 25rem;
-    margin: 5px;
+.card-wrap {
+    flex: 0 0 100%;
+    display: flex;
+    padding: 2px;
 }
 
 .card-title {
+    order: 1;
     text-align: center;
-    margin-top: 5px
+    margin-top: 5px;
 }
 
 .card-img-top {
+    order: 2;
     padding: 10px;
     width: 100%;
     height: 20vw;
@@ -372,12 +294,11 @@ button {
 }
 
 .card-body {
+    order: 3;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: space-evenly;
-    align-content: flex-start;
-    align-items: space-between;
+    justify-content: stretch;
 }
 
 .desc {
@@ -406,7 +327,7 @@ button {
     cursor: default;
 }
 
-.posted-by {
+.card-footer {
     order: 4;
 }
 
@@ -418,12 +339,8 @@ button {
 }
 
 #pseudoelement {
-    flex-grow: 1;
-    flex-shrink: 1;
-    width: 25rem;
     background-color: lightblue;
-    border: 1px solid lightblue;
-    margin: 5px;
+    border: none;
 }
 
 .error {

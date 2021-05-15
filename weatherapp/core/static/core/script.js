@@ -117,14 +117,18 @@ function get_data(city, time, units) {
                 }
                 var recipe_container = document.createElement('div');
                 recipe_container.id = "recipe-container";
-                document.querySelector('body').append(recipe_container);
+                document.querySelector('#main').append(recipe_container);
                 firstThreeRecipes.forEach(function(recipe, index) {
                     console.log(`Recipe${recipe['id']} Index${index}: ${recipe['title']}`);
+                    var card_wrap = document.createElement('div');
+                    card_wrap.className = "card-wrap";
+                    card_wrap.id = `wrap-index${index}`;
+                    card_wrap.style.order = `${index}`;
                     var top_recipe = document.createElement('div');
                     top_recipe.id = `recipe-index${index}`;
-                    top_recipe.className = "top-recipe card";
-                    top_recipe.style.order = `${index}`;
-                    document.querySelector('#recipe-container').append(top_recipe);
+                    top_recipe.className = "card recipe-card flex-fill";
+                    document.querySelector('#recipe-container').append(card_wrap);
+                    card_wrap.append(top_recipe);
                     var title = document.createElement('h5');
                     title.className = "title card-title";
                     title.innerHTML = `${recipe['title']}`;
@@ -172,6 +176,7 @@ function get_data(city, time, units) {
                     document.querySelector(`#recipe-body${index}`).append(desc);
                     document.querySelector(`#recipe-body${index}`).append(types);
                 });
+
                 document.querySelector('#information').append(assessment);
             }
         })
