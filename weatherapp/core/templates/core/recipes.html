@@ -69,9 +69,9 @@
     <div id='no-matches' class="error">
         <h4><b>No matches found. Try another search.</b></h4>
     </div>
-    <div id="flex-container">
+    <div id="grid-container">
         {% for recipe in recipes %}
-            <div id="{{ forloop.counter }}" class="card recipe-card" style="order: {{ forloop.counter}};">
+            <div id="{{ forloop.counter }}" class="card recipe-card">
                 <div class="card-title">
                     <h4><b>{{ recipe.title }}</b></h4>
                 </div>
@@ -94,11 +94,6 @@
                     <p class="attribution">Attribution: {{ recipe.recipe }}</p>
                 </div>
             </div>
-            <!-- Pseudoelement in order to shrink last card to the right size -->
-            {% if forloop.last %}
-                <div id="pseudoelement" class="card pseudo-card" style="order: {{ forloop.counter}};">
-                </div>
-            {% endif %}
         {% endfor %}
         </div>
     </div>

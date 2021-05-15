@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             filter("weather", selectedChoices);
             document.querySelector('#recipes-title').style.display = 'block';
-            document.querySelector('#flex-container').style.display = 'grid';
+            document.querySelector('#grid-container').style.display = 'grid';
             document.querySelector('#select-filters').style.display = 'block';
             document.querySelector('#weather-filter-container').style.display = 'none';
             window.recipes.forEach(recipe => {
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             recipe['weather'] = true;
         });
         document.querySelector('#recipes-title').style.display = 'block';
-        document.querySelector('#flex-container').style.display = 'grid';
+        document.querySelector('#grid-container').style.display = 'grid';
         document.querySelector('#select-filters').style.display = 'block';
         document.querySelector('#weather-filter-container').style.display = 'none';
         window.recipes.forEach(recipe => {
@@ -87,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.querySelector('#apply').onclick = () => {
+        var counter = 0;
         document.querySelector('#no-matches').style.display = 'none';
         window.recipes.forEach(recipe => {
             for (let i = 0; i < filters.length; i++) {
@@ -102,12 +103,22 @@ document.addEventListener('DOMContentLoaded', function() {
             if (recipe['weather'] && recipe['cuisine'] && recipe['meal'] && recipe['diet']) {
                 recipe.style.display = 'block';
                 noRecipes = false;
+                counter += 1;
             } else {
                 recipe.style.display = 'none';
             }
         });
-        if (noRecipes === true) {
+        if (counter === 0) {
             document.querySelector('#no-matches').style.display = 'block';
+        }
+        if (counter === 1) {
+            window.recipes.forEach(recipe => {
+                if (recipe.style.display !== 'none') {
+                    recipe.style.width = '60vw';
+                } else {
+                    recipe.style.width = 'auto';
+                }
+            })
         }
     }
 

@@ -257,9 +257,12 @@ button {
     margin-bottom: 50px;
 }
 
-#flex-container {
+#grid-container {
     display: none;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-auto-flow: row;
+    gap: 4px;
+    justify-items: center;
 }
 
 .recipe-card {
@@ -268,6 +271,9 @@ button {
     justify-content: stretch;
     width: auto;
     margin: 5px;
+    background-color: ivory;
+    border: 1px solid ivory;
+    border-radius: 8px;
 }
 
 .card-wrap {
@@ -336,11 +342,6 @@ button {
     font-size: 10px;
     color: grey;
     font-style: oblique;
-}
-
-#pseudoelement {
-    background-color: lightblue;
-    border: none;
 }
 
 .error {
