@@ -81,10 +81,10 @@ function get_data(city, time, units) {
                     document.querySelector('#heading').remove();
                 }
                 var heading = document.createElement('h1');
-                heading.innerHTML = `Weather Results for ${response['region']}`;
+                heading.innerHTML = `Weather Results for <em>${response['region']}</em>`;
                 heading.id = 'heading';
-                document.querySelector('#main_text').insertBefore(heading, document.querySelector('#main_text').firstChild);
-                document.querySelector('#information').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees ${units}. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']}. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`
+                document.querySelector('#main').insertBefore(heading, document.querySelector('#main').firstChild);
+                document.querySelector('#information').innerHTML = `The weather in ${response['region']} ${response['tense']} <em><b>${response['weather'].toLowerCase()}</b></em>. The temperature ${response['tense']} ${response['temp']} degrees ${units}. There ${response['tense']} ${response['humidity']}% humidity. The wind speed ${ response['tense']} ${ response['wind']}. <b>It ${response["tense"]} ${response['is_it_windy']}</b>`;
                 let assessment = document.createElement('h5');
                 assessment.id = 'assessment';
                 if (response['overall_assessment'] <= 5) {
