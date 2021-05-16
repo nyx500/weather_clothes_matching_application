@@ -128,17 +128,11 @@ button {
 #weather-filter-container {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    padding-left: 100px;
-    padding-right: 100px;
-    min-width: 70%;
-    margin: 5px;
-    margin-left: 5rem;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    text-align: center;
+    margin-top: 100px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     background-color: ivory;
     border: 1px solid ivory;
     border-radius: 8px;
@@ -157,6 +151,9 @@ button {
     border-radius: 8px;
     padding: 10px;
     color: white;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #no-filter-chosen {
@@ -168,6 +165,11 @@ button {
     order: 4;
     align-self: center;
     margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#weather-filter-container span button {
+    margin: 10px;
 }
 
 .filter {
