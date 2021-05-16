@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`STATE AFTER PUSH STATE IS ADDED: ${Object.values(history.state)}`);
     } else {
         console.log(`STATE WHEN PAGE IS LOADED: ${Object.values(history.state)}`);
-        history.replaceState({ recipes: 'unloaded' }, ``, '/recipes');
         console.log(`STATE AFTER PUSH STATE IS ADDED: ${Object.values(history.state)}`);
     }
 
@@ -62,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     recipe.style.display = 'none';
                 }
             });
-            history.replaceState({ recipes: 'loaded' }, ``, '/recipes');
-            console.log(`STATE AFTER SELECTING WEATHER FILTERS: ${history.state.recipes}`);
+            history.pushState({ recipes: 'loaded', weather_types: selectedChoices }, ``, '/recipes');
+            console.log(`STATE AFTER SELECTING WEATHER FILTERS: ${history.state.weather_types}`);
         }
     }
 
@@ -82,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 recipe.style.display = 'none';
             }
         });
-        history.pushState({ recipes: 'loaded' }, ``, '/recipes');
-        console.log(`STATE AFTER SELECTING ALL RECIPES: ${history.state.recipes}`);
+        history.pushState({ recipes: 'loaded', weather_types: 'all' }, ``, '/recipes');
+        console.log(`STATE AFTER SELECTING ALL RECIPES: ${history.state.weather_types}`);
     }
 
     document.querySelector('#apply').onclick = () => {

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     if (document.querySelector('#weather-form')) {
-        history.pushState({ city: 'none_yet' }, ``, ``);
+        history.replaceState({ city: 'none_yet' }, ``, ``);
     }
 
     var x = get_default();
