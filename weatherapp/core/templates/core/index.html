@@ -24,7 +24,7 @@
                     <input type="hidden" id="data-response"></input>
                 {% else %}
                     <div id="weather-form">
-                        <h1 id="find-the-weather">Find the Weather</h1>
+                        <h1 id="what-weather">What's the Weather?</h1>
                         {% if message %}
                             <h2 id="thank-you">{{ message }}</h2>
                         {% else %}
@@ -55,7 +55,7 @@
                                         <label class="form-check-label" for="fahrenheit">Fahrenheit</label>
                                     </div>
                                 </div>
-                                <button id='city-button' value="Submit">Submit</button>
+                                <button id='submit-button' class="btn btn-dark" value="Submit">Submit</button>
                             </div>
                         {% endif %}
                     </div>
