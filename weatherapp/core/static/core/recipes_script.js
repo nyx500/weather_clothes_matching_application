@@ -1,13 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    if (document.querySelector('.recipe-card')) {
+        window.recipes = document.querySelectorAll('.recipe-card');
+    }
+    const filters = ["cuisine", "meal", "diet"];
 
     if (history.state === null) {
         console.log(`STATE WHEN PAGE IS LOADED: ${history.state}`);
         history.replaceState({ recipes: 'unloaded' }, ``, '/recipes');
         console.log(`STATE AFTER PUSH STATE IS ADDED: ${Object.values(history.state)}`);
+    } else if (history.state.recipes === 'loaded') {
+        if (history.state.weather_types === 'all') {
+            display_all(window.recipes);
+        } else {
+            filter("weather", history.state.weather_types);
+            display_selected_recipes();
+        }
     } else {
-        console.log(`STATE WHEN PAGE IS LOADED: ${Object.values(history.state)}`);
-        console.log(`STATE AFTER PUSH STATE IS ADDED: ${Object.values(history.state)}`);
+        console.log('UNLOADED');
     }
 
     window.onbeforeunload = () => {
@@ -36,11 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    if (document.querySelector('.recipe-card')) {
-        window.recipes = document.querySelectorAll('.recipe-card');
-    }
-    const filters = ["cuisine", "meal", "diet"];
-
     document.querySelector('#choose-weather').onclick = () => {
         window.recipes.forEach(recipe => {
             recipe['weather'] = false;
@@ -62,27 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             history.pushState({ recipes: 'loaded', weather_types: selectedChoices }, ``, '/recipes');
-            console.log(`STATE AFTER SELECTING WEATHER FILTERS: ${history.state.weather_types}`);
         }
     }
 
     document.querySelector('#choose-weather-all').onclick = () => {
-        window.recipes.forEach(recipe => {
-            recipe['weather'] = true;
-        });
-        document.querySelector('#recipes-title').style.display = 'block';
-        document.querySelector('#grid-container').style.display = 'grid';
-        document.querySelector('#select-filters').style.display = 'block';
-        document.querySelector('#weather-filter-container').style.display = 'none';
-        window.recipes.forEach(recipe => {
-            if (recipe['weather']) {
-                recipe.style.display = 'block';
-            } else {
-                recipe.style.display = 'none';
-            }
-        });
+        display_all(window.recipes);
         history.pushState({ recipes: 'loaded', weather_types: 'all' }, ``, '/recipes');
-        console.log(`STATE AFTER SELECTING ALL RECIPES: ${history.state.weather_types}`);
     }
 
     document.querySelector('#apply').onclick = () => {
@@ -132,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 })
 
+// Returns the specific filter categories which were selected by the user on the checkboxes
 function findIfFilters(filter_type) {
     let choices = [];
     const checkboxes = document.getElementById(`${filter_type}-filter`).getElementsByTagName('input');
@@ -141,6 +132,44 @@ function findIfFilters(filter_type) {
         }
     }
     return choices;
+}
+
+// Hides the weather filter container and displays all of the recipes in a grid format
+function display_selected_recipes() {
+    document.querySelector('#weather-filter-container').style.display = 'none';
+    document.querySelector('#recipes-title').style.display = 'block';
+    document.querySelector('#grid-container').style.display = 'grid';
+    document.querySelector('#select-filters').style.display = 'block';
+    window.recipes.forEach(recipe => {
+        if (recipe['weather']) {
+            recipe.style.display = 'block';
+        } else {
+            recipe.style.display = 'none';
+        }
+    });
+}
+
+// Displays all recipes for all kinds of weather if the user presses the 'View All' button
+function display_all(recipes) {
+    recipes.forEach(recipe => {
+        recipe['weather'] = true;
+    });
+    display_selected_recipes();
+}
+
+// Selects the correct recipes for that kind of weather
+function select_by_weather(recipes) {
+    recipes.forEach(recipe => {
+        recipe['weather'] = false;
+    });
+    let selectedChoices = findIfFilters("weather");
+    if (selectedChoices.length === 0) {
+        document.querySelector('#no-filter-chosen').style.display = 'block';
+    } else {
+        filter("weather", selectedChoices);
+        display_selected_recipes();
+        history.pushState({ recipes: 'loaded', weather_types: selectedChoices }, ``, '/recipes');
+    }
 }
 
 function filter(filter_type, choices) {

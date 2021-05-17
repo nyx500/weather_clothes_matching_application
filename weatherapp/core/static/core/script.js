@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
-    if (document.querySelector('#weather-form')) {
-        history.replaceState({ city: 'none_yet' }, ``, ``);
-    }
-
     var x = get_default();
 
     if (document.querySelector('#weather-form')) {
@@ -28,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 window.onpopstate = () => {
-    console.log(`pop, ${history.state}`);
     window.location.reload();
 }
 
@@ -72,7 +67,11 @@ function get_data(city, time, units) {
                 error_message.innerHTML = `The location input '${city}' is invalid. Please try again.`;
                 document.querySelector('#main').append(error_message);
             } else {
-                history.replaceState({ city: city }, ``, `/city/${city}/`);
+                // Attribution: https://stackoverflow.com/questions/30429172/html5-history-api-cannot-go-backwards-more-than-once
+                if (!history.state || history.state.city != city) {
+                    history.pushState({ city: city }, ``, `/city/${city}/`);
+                }
+                console.log(history.state.city);
                 var information = document.createElement('div');
                 information.id = 'information';
                 document.querySelector('#main').append(information);
