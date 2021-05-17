@@ -1,14 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Gets all the recipes for filtering and sorting and stores them in a global variable accessible to all the filter functions
     if (document.querySelector('.recipe-card')) {
         window.recipes = document.querySelectorAll('.recipe-card');
     }
+
+    // An array of all the types of filters once the recipes according to filter have loaded
     const filters = ["cuisine", "meal", "diet"];
 
+    // Loads the correct recipes (or no recipes) depending on the state of the history API and updates the state if the current entry is null
     if (history.state === null) {
-        console.log(`STATE WHEN PAGE IS LOADED: ${history.state}`);
         history.replaceState({ recipes: 'unloaded' }, ``, '/recipes');
-        console.log(`STATE AFTER PUSH STATE IS ADDED: ${Object.values(history.state)}`);
     } else if (history.state.recipes === 'loaded') {
         if (history.state.weather_types === 'all') {
             display_all(window.recipes);
@@ -16,36 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
             filter("weather", history.state.weather_types);
             display_selected_recipes();
         }
-    } else {
-        console.log('UNLOADED');
     }
 
-    window.onbeforeunload = () => {
-        if (history.state === null) {
-            console.log(`unbeforeunload: ${history.state}`);
-        } else {
-            console.log(`unbeforeunload 2: ${Object.values(history.state)}`);
-        }
-    }
-
-    console.log(performance.getEntriesByType("navigation")[0].type);
-
-    if (typeof history.state !== undefined && history.state !== null) {
-        if (typeof window.performance !== undefined) {
-            console.log(Object.values(history.state)[0]);
-            if (window.performance.getEntriesByType("navigation")[0].type === 'reload' && Object.values(history.state)[0] === 'unloaded') {
-                console.log("YES");
-            } else {
-                console.log(window.performance.getEntriesByType("navigation")[0].type);
-                if (history.state !== null) {
-                    console.log(typeof Object.values(history.state)[0]);
-                }
-                console.log("NO");
-            }
-        }
-    }
-
-
+    // If user selects some weather filters, choose the appropriate recipes in those categories and display them
     document.querySelector('#choose-weather').onclick = () => {
         window.recipes.forEach(recipe => {
             recipe['weather'] = false;
@@ -55,62 +30,49 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('#no-filter-chosen').style.display = 'block';
         } else {
             filter("weather", selectedChoices);
-            document.querySelector('#recipes-title').style.display = 'block';
-            document.querySelector('#grid-container').style.display = 'grid';
-            document.querySelector('#select-filters').style.display = 'block';
-            document.querySelector('#weather-filter-container').style.display = 'none';
-            window.recipes.forEach(recipe => {
-                if (recipe['weather']) {
-                    recipe.style.display = 'block';
-                } else {
-                    recipe.style.display = 'none';
-                }
-            });
+            display_selected_recipes();
             history.pushState({ recipes: 'loaded', weather_types: selectedChoices }, ``, '/recipes');
         }
     }
 
+    // Displays all of the recipes if the user cllicks on the 'View All' button
     document.querySelector('#choose-weather-all').onclick = () => {
         display_all(window.recipes);
         history.pushState({ recipes: 'loaded', weather_types: 'all' }, ``, '/recipes');
     }
 
     document.querySelector('#apply').onclick = () => {
-        var counter = 0;
+        // Hides message saying that no filters have been selected if it was showing
         document.querySelector('#no-matches').style.display = 'none';
+        // Initially sets the value for each filter property of all of the recipe objects to false, before going through each filter and seeing if it applies to the current recipe
         window.recipes.forEach(recipe => {
             for (let i = 0; i < filters.length; i++) {
                 recipe[`${filters[i]}`] = false;
             }
         });
         for (let i = 0; i < filters.length; i++) {
+            // Stores the filters that the user has selected out of each filter category in an array called 'selectedChoices'
             let selectedChoices = findIfFilters(filters[i]);
+            // The filter function goes through all the recipes and sets its property for that filter category (e.g. cuisine) to true if the recipe falls into that category
             filter(filters[i], selectedChoices);
         }
-        var noRecipes = true;
+
+        var counter = 0;
+        // Displays the recipe if all the filters selected by the user match its properties
         window.recipes.forEach(recipe => {
             if (recipe['weather'] && recipe['cuisine'] && recipe['meal'] && recipe['diet']) {
                 recipe.style.display = 'block';
-                noRecipes = false;
+                // Adds each displayed recipe to the counter
                 counter += 1;
             } else {
                 recipe.style.display = 'none';
             }
         });
-        if (counter === 0) {
-            document.querySelector('#no-matches').style.display = 'block';
-        }
-        if (counter === 1) {
-            window.recipes.forEach(recipe => {
-                if (recipe.style.display !== 'none') {
-                    recipe.style.width = '60vw';
-                } else {
-                    recipe.style.width = 'auto';
-                }
-            })
-        }
+
+        display_settings(counter);
     }
 
+    // Shows and hides filters if user clicks on the select-filters button
     document.querySelector('#select-filters').onclick = () => {
         if (document.querySelector('#select-filters').innerHTML === 'Select Filters') {
             document.querySelector('.filter').style.display = 'flex';
@@ -137,9 +99,9 @@ function findIfFilters(filter_type) {
 // Hides the weather filter container and displays all of the recipes in a grid format
 function display_selected_recipes() {
     document.querySelector('#weather-filter-container').style.display = 'none';
+    document.querySelector('#select-filters').style.display = 'block';
     document.querySelector('#recipes-title').style.display = 'block';
     document.querySelector('#grid-container').style.display = 'grid';
-    document.querySelector('#select-filters').style.display = 'block';
     window.recipes.forEach(recipe => {
         if (recipe['weather']) {
             recipe.style.display = 'block';
@@ -172,6 +134,7 @@ function select_by_weather(recipes) {
     }
 }
 
+// Updates all the filter properties of all the recipe objects in window.recipes depending on the filters chosen by the user, so that the recipes can be selected based on these and either hidden or displayed
 function filter(filter_type, choices) {
     window.recipes.forEach(recipe => {
         if (choices.length === 0) {
@@ -204,4 +167,22 @@ function filter(filter_type, choices) {
             }
         }
     })
+}
+
+// Changes display of recipes results depending on how many recipes are to be shown
+function display_settings(counter) {
+    // Displays a message saying there are no matches if there are no selected recipes for those chosen filters
+    if (counter === 0) {
+        document.querySelector('#no-matches').style.display = 'block';
+    }
+    // If there is only one recipe to be displayed, sets the width to being wider than normal, so it looks good on the screen
+    if (counter === 1) {
+        window.recipes.forEach(recipe => {
+            if (recipe.style.display !== 'none') {
+                recipe.style.width = '60vw';
+            } else {
+                recipe.style.width = 'auto';
+            }
+        })
+    }
 }
