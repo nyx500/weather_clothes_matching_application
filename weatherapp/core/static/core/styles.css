@@ -5,7 +5,9 @@
 }
 
 body {
-    background-color: lightblue!important;
+    /* Attribution: https: //unsplash.com/photos/5o4LtyROYMU?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink */
+    background-image: url(clouds.jpg);
+    background-size: cover;
 }
 
 .header {
@@ -35,8 +37,16 @@ input[type='text'] {
 }
 
 #heading {
+    padding: 20px;
     text-align: center;
     margin-top: 120px;
+    font-weight: bolder;
+    background-color: seashell;
+    border: 1px solid seashell;
+    border-radius: 8px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media only screen and (max-width: 300px) {
@@ -46,6 +56,9 @@ input[type='text'] {
         top: 100%;
         margin-top: 20px;
     }
+    #weather-filter-container {
+        width: fit-content;
+    }
 }
 
 .form-control {
@@ -53,9 +66,18 @@ input[type='text'] {
 }
 
 #weather-form {
-    margin-top: 11rem;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     padding: 20px;
-    min-width: 75vw;
+    padding-left: 120px;
+    padding-right: 120px;
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    border-radius: 8px;
+    width: fit-content;
 }
 
 #what-weather {
@@ -128,6 +150,10 @@ nav {
 
 #information {
     margin: 20px;
+    padding: 20px;
+    background-color: seashell;
+    border: 1px solid seashell;
+    border-radius: 8px;
 }
 
 #assessment {
@@ -152,11 +178,15 @@ nav {
 }
 
 #weather-filter-container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     text-align: center;
     margin-top: 100px;
-    width: fit-content;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     background-color: ivory;
@@ -269,8 +299,7 @@ nav {
 
 #recipes-title {
     display: none;
-    text-align: center;
-    margin: 120px;
+    margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
     max-width: 80%;
