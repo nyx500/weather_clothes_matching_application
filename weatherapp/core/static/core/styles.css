@@ -416,8 +416,8 @@ nav span {
     padding: 0px 10px;
     margin: 0 auto;
     display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .title {
