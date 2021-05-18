@@ -95,12 +95,10 @@ def get_data(request):
                     weather_data["tense"] = 'will be'
                 return JsonResponse(weather_data)
         else:
-            print(f'None city: {city}');
             return render(request, 'core/index.html')
 
 # If tge user refreshes page on the city JS state, then this allows Python to send a hidden message to index page which is waited for on the script as a signal to fetchthe weather data from get_data and the API again
 def get_city(request, city):
-    print("OK")
     return render(request, 'core/index.html', {
         'get_data': "yes"
     })
@@ -123,7 +121,6 @@ def submit(request):
             # Stores the image_url as a no-image icon if the user has not linked to an image as default
             else:
                 image_url = "https://img.icons8.com/color/96/000000/no-image.png"
-            print(f"URL: {url}")
             # Pretends to be a browser agent on Mozilla to check access to the URL via the link for the recipe and image input, to see that the URL the user has entered is not a 404/3 error
             request_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"}
             recipe_request = urllib.request.Request(url, headers = request_headers)
@@ -171,16 +168,12 @@ def submit(request):
                     return render(request, "core/index.html", {
                     'message': 'Error: Invalid image URL.'
                 })
-            else:
-                pass
 
             if not valid_url_extension(image_url):
-                print("Not a valid url extension")
                 return render(request, "core/index.html", {
                     'message': 'Error: Invalid URL for image link.'
                 })
         else:
-            print("Form/image URL invalid!!!!")
             return HttpResponseRedirect(reverse("submit"))
     else:
         form = RecipeForm()

@@ -3,11 +3,12 @@ from bs4 import BeautifulSoup
 import mimetypes
 from .models import *
 
-
+# To verify that the image URL is an image
 VALID_IMAGE_MIMETYPES = [
     "image"
 ]
 
+# To verify that the image on the image url has a valid extension
 VALID_IMAGE_EXTENSIONS = [
     ".jpg",
     ".jpeg",
@@ -15,15 +16,13 @@ VALID_IMAGE_EXTENSIONS = [
     ".gif",
 ]
 
+# Checks if image URL has a valid extension type
+# Attribution: https://timmyomahony.com/blog/upload-and-validate-image-from-url-in-django and http://stackoverflow.com/a/10543969/396300
 def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
-    # https://timmyomahony.com/blog/upload-and-validate-image-from-url-in-django
-    # http://stackoverflow.com/a/10543969/396300
-    # Checks if the image URL ends with any of the valid extensions and returns true if it does and false otherwise
     return any([url.endswith(e) for e in extension_list])
 
+# Checks if image has a valid format or mimetype
 def valid_url_mimetype(url, mimetype_list=VALID_IMAGE_MIMETYPES):
-    # https://timmyomahony.com/blog/upload-and-validate-image-from-url-in-django
-    # http://stackoverflow.com/a/10543969/396300
     # The guess_type function returns the type of object (should be an image) and the encoding, then these are stored in two separate variables
     mimetype, encoding = mimetypes.guess_type(url)
     # Checks if the value (the only one is image) in the list of valid formats is the same as the returned mimetype and prints True if this is the case
@@ -32,6 +31,7 @@ def valid_url_mimetype(url, mimetype_list=VALID_IMAGE_MIMETYPES):
     else:
         return False
 
+# Generates a rating for the temperature of a place from the data returned from Google
 def encode_weather_based_on_temp(condition, temp):
     if temp <= - 10:
         pass
@@ -57,10 +57,8 @@ def encode_weather_based_on_temp(condition, temp):
         condition += 10
     return(condition)
 
+# Generates a feels-like weather rating taking into account variables as well as the temperature
 def change_feels_like_weather(humidity, wind, weather, hot_or_cold, weather_data):
-
-    print(f"WIND: {wind}")
-
     if wind <= 20:
         weather_data['is_it_windy'] = "calm and still."
         weather += 3
@@ -88,10 +86,9 @@ def change_feels_like_weather(humidity, wind, weather, hot_or_cold, weather_data
             weather += 1
         elif humidity >= 90:
             weather += 2
-
     return(weather)
     
-
+# Gets HTML content from Google based on a the user's input and a weather query, then stores it as text that has to be parsed in another function
 def get_html_content(city, time):
     USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
     LANGUAGE = "en-gb;q=0.8, en;q=0.7"
@@ -110,20 +107,19 @@ def get_html_content(city, time):
         html_content = session.get(f"https://www.google.co.uk/search?q=weather+in+{city}+tomorrow").text
     return html_content
 
+# Finds recipes with a certain kind of weather
 def find_recipes(weather_type, recipes, recipe_list):
     for r in recipes:
         for w in r.weather.all().values_list():
             if r not in recipe_list:
                 if weather_type in w[1]:
                     recipe_list.append(r)
-    print(f"RECIPE LIST: {recipe_list}")
     return recipe_list
 
+# Makes a BeautifulSoup object out of the Google html text and creates a dictionary with all the weather data for that place stored in it
 def get_weather_data(html_content, units):
-
     recipes = Recipe.objects.all().order_by('-time')
     recipe_list = []
-
     soup = BeautifulSoup(html_content, 'html.parser')
     weather_data = dict()
     if soup.find('div', attrs={'id': 'wob_loc'}) == None:
@@ -189,11 +185,13 @@ def get_weather_data(html_content, units):
                 weather_type = 'Frosty'
                 recipe_list = find_recipes(weather_type, recipes, recipe_list)
 
+        # An error is returned if the weather type is unknown
         if weather_value == 0:
             weather = 'Error'
+            print(weather)
         else:
             weather_value = encode_weather_based_on_temp(weather_value, weather_data['temp'])
-
+            # Gets a different assessment of the general weather by changing whether an increase in humidity makes the weather feel warmer or colder by looking at if the basic temperature is warm or cold
             if weather_value <= 10: 
                 weather = change_feels_like_weather(weather_data['humidity'], weather_data['wind'], weather_value, 'cold', weather_data)
             else:
@@ -240,10 +238,9 @@ def get_weather_data(html_content, units):
                     recipes_as_dictionaries.append(r)
         for d in recipes_as_dictionaries:
             d['username'] = User.objects.get(id=d['user_id']).username
-
+        
+        
+        # Append a dictionary of recipes that means the weather data will be easily returned as a JSON object
         weather_data["recipes"] = recipes_as_dictionaries
-
-        print(f"Recipe list: {recipe_list}, {ids}")
-        print(f"DICTIONARY OF RECIPES: {recipes_as_dictionaries}")
 
         return weather_data
