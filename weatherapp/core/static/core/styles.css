@@ -5,7 +5,8 @@
 }
 
 body {
-    /* Attribution: https: //unsplash.com/photos/5o4LtyROYMU?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink */
+    /* Attribution: Photo by Jelleke Vanooteghem on Unsplash
+    https://unsplash.com/photos/gnxb59lGU1M?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink */
     background-image: url(clouds.jpg);
     background-size: cover;
 }
@@ -15,8 +16,26 @@ body {
     text-align: start;
 }
 
-.login-form {
+.input-form {
     margin-top: 6vh;
+}
+
+#submit-form {
+    background-color: black;
+    border: 1px solid black;
+    border-radius: 8px;
+    color: white;
+    padding: 10px;
+    padding-left: 100px;
+    padding-right: 100px;
+    margin-bottom: 10px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#submit-form .btn {
+    margin: 40px;
 }
 
 input[type='text'] {
@@ -27,6 +46,7 @@ input[type='text'] {
 }
 
 #main_text {
+    margin-top: 20vh;
     padding: 0px 20px;
     text-align: center;
     position: relative;
@@ -47,6 +67,7 @@ input[type='text'] {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: 4px 4px 10px beige;
 }
 
 @media only screen and (max-width: 300px) {
@@ -99,6 +120,38 @@ input[type='text'] {
     margin-left: 20px;
 }
 
+#weather-field {
+    padding: 5px;
+    background-color: lightskyblue;
+    border: 1px solid lightskyblue;
+    border-radius: 8px;
+    color: black;
+}
+
+.input-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.field[data-column="1"] {
+    order: 1;
+}
+
+.field[data-column="2"] {
+    order: 2;
+}
+
+.field[data-column="3"] {
+    order: 3;
+}
+
+.field[data-column="4"] {
+    order: 4;
+}
+
 button {
     padding: 0px 10px;
     border: 2px solid black;
@@ -119,10 +172,16 @@ button {
 
 nav {
     min-height: 100px;
+    background-image: linear-gradient(black, grey);
+    font-weight: bold;
+}
+
+nav span {
+    color: seashell;
 }
 
 .navbar a {
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 .navbar a:hover {
@@ -154,6 +213,7 @@ nav {
     background-color: seashell;
     border: 1px solid seashell;
     border-radius: 8px;
+    box-shadow: 2px 2px 10px seashell;
 }
 
 #assessment {
@@ -253,6 +313,8 @@ nav {
 }
 
 .field {
+    margin: 10px;
+    margin-bottom: 20px;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -275,8 +337,8 @@ nav {
 
 #cuisine-filter-container {
     order: 1;
-    background-color: lightpink;
-    border: 1px solid lightpink;
+    background-color: lightgoldenrodyellow;
+    border: 1px solid lightgoldenrodyellow;
     padding: 5px;
     margin: 5px;
 }
@@ -303,10 +365,24 @@ nav {
     margin-left: auto;
     margin-right: auto;
     max-width: 80%;
+    font-weight: bold;
+    padding: 10px;
+    background-color: cyan;
+    border: 1px solid cyan;
+    border-radius: 8px;
+    font-weight: bold;
 }
 
 #recipes-title h1 {
     font-weight: bold;
+}
+
+#submit-title {
+    font-weight: bold;
+    padding: 5px;
+    background-color: seashell;
+    border: 1px solid seashell;
+    border-radius: 8px;
 }
 
 #apply {
@@ -315,9 +391,12 @@ nav {
     justify-self: center;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: blue!important;
-    color: white;
+    background-color: black!important;
+    color: seashell;
+    border: 2px solid red;
     box-shadow: 2px 2px 6px grey;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 #recipe-container {
@@ -369,9 +448,10 @@ nav {
     justify-content: stretch;
     width: auto;
     margin: 5px;
-    background-color: ivory;
-    border: 1px solid ivory;
+    background-color: lightblue!important;
+    border: 1px solid lightblue!important;
     border-radius: 8px;
+    box-shadow: 4px 4px 10px navy;
 }
 
 @media only screen and (max-width: 350px) {
@@ -456,6 +536,16 @@ nav {
 .error {
     text-align: center;
     display: none;
+    padding: 10px;
+    background-color: seashell;
+    border: 1px solid seashell;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    color: red;
 }
 
 .footer {
