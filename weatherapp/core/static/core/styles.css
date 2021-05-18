@@ -14,10 +14,20 @@ body {
 .header {
     margin-top: 20vh;
     text-align: start;
+    font-weight: bold;
+    font-size: 42px;
+    color: white;
 }
 
 .input-form {
-    margin-top: 6vh;
+    position: fixed;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+}
+
+.input-form input {
+    width: 50vw;
 }
 
 #submit-form {
@@ -26,12 +36,9 @@ body {
     border-radius: 8px;
     color: white;
     padding: 10px;
-    padding-left: 100px;
-    padding-right: 100px;
     margin-bottom: 10px;
     width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 20px;
 }
 
 #submit-form .btn {
@@ -54,6 +61,7 @@ input[type='text'] {
 
 #main {
     text-align: center;
+    position: relative;
 }
 
 #heading {
@@ -320,6 +328,7 @@ nav span {
     justify-content: flex-start;
     align-items: flex-start;
     align-content: stretch;
+    text-align: start;
 }
 
 .field .label {
@@ -379,10 +388,14 @@ nav span {
 
 #submit-title {
     font-weight: bold;
-    padding: 5px;
-    background-color: seashell;
-    border: 1px solid seashell;
+    padding: 10px;
+    background-color: black;
+    border: 1px solid black;
     border-radius: 8px;
+    color: seashell;
+    width: fit-content;
+    margin-left: 20px;
+    margin-bottom: 40px;
 }
 
 #apply {
@@ -548,6 +561,28 @@ nav span {
     color: red;
 }
 
+.login-message {
+    font-weight: bold;
+    color: red;
+    background-image: linear-gradient(white, skyblue);
+    border: 1px solid skyblue;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-message a {
+    color: black!important;
+}
+
+.login-error {
+    font-weight: bold;
+    color: red;
+    margin: 20px;
+}
+
 .footer {
     position: absolute;
     bottom: 5px;
@@ -555,4 +590,15 @@ nav span {
     width: 100%;
     left: 0;
     padding: 20px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    font-weight: bold;
+}
+
+footer a {
+    color: navy!important;
 }

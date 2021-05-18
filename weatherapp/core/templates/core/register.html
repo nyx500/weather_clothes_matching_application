@@ -5,12 +5,9 @@
 
     <h2 class="header">Register</h2>
 
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-
     <form class="input-form" action="{% url 'register' %}" method="post">
         {% csrf_token %}
+        <div class="login-message">Already have an account? <a href="{% url 'login' %}">Log In here.</a></div>
         <div class="form-group">
             <input class="form-control" type="text" name="user" placeholder="Username">
         </div>
@@ -24,8 +21,9 @@
             <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
         </div>
         <input class="btn btn-primary" type="submit" value="Register">
+        {% if message %}
+            <div class="login-error">{{ message }}</div>
+        {% endif %}
     </form>
-
-    Already have an account? <a href="{% url 'login' %}">Log In here.</a>
 
 {% endblock %}

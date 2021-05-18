@@ -2,76 +2,78 @@
 
 {% block div %}
     <h1 id="submit-title">Submit a Recipe</h1>
-    <form id="submit-form" class="input-form" action="{% url "submit" %}" method="POST">
+    <form id="submit-form" action="{% url "submit" %}" method="POST">
         {% csrf_token %}
-        <div class="field"> 
-            <div class="label">
-                Recipe title:
-            </div>
-            <div class="input">
-                {{ form.title }}
-            </div>
-        </div>
-        <div class="field">
-            <div class="label">
-                Brief description of recipe (why do you like it?):
-            </div>
-            <div class="input">
-                {{ form.description }}
-            </div>
-        </div>
-        <div class="field">
-            <div class="label">
-                Recipe URL:
-            </div>
-            <div  class="input">
-                {{ form.recipe }}
-            </div>
-        </div>
-        <div class="field">
-            <div class="label">
-                Image URL:
-            </div>
-            <div class="input">
-                {{ form.image }}    
-            </div>
-        </div>
-        <div id="weather-field" class="field">
-            <div class="label">
-                Type of weather:
-            </div>
-            <div class="input">
-                {% for checkbox in form.weather %}
-                    {{ checkbox }}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="input-flex">
-            <div data-column="1" class="field">
+        <div class="form-group">
+            <div class="field"> 
                 <div class="label">
-                    Cuisine:
+                    Recipe title:
                 </div>
                 <div class="input">
-                    {{ form.food_type }}
+                    {{ form.title }}
                 </div>
             </div>
-            <div data-column="2" class="field">
+            <div class="field">
                 <div class="label">
-                    Dietary Restrictions:
+                    Brief description of recipe (why do you like it?):
                 </div>
                 <div class="input">
-                    {{ form.diets }}
+                    {{ form.description }}
                 </div>
             </div>
-            <div data-column="3" class="field">
+            <div class="field">
                 <div class="label">
-                    Type of Meal:
+                    Recipe URL:
+                </div>
+                <div  class="input">
+                    {{ form.recipe }}
+                </div>
+            </div>
+            <div class="field">
+                <div class="label">
+                    Image URL:
                 </div>
                 <div class="input">
-                    {{ form.meals }}
+                    {{ form.image }}    
                 </div>
             </div>
+            <div id="weather-field" class="field">
+                <div class="label">
+                    Type of weather:
+                </div>
+                <div class="input">
+                    {% for checkbox in form.weather %}
+                        {{ checkbox }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="input-flex">
+                <div data-column="1" class="field">
+                    <div class="label">
+                        Cuisine:
+                    </div>
+                    <div class="input">
+                        {{ form.food_type }}
+                    </div>
+                </div>
+                <div data-column="2" class="field">
+                    <div class="label">
+                        Dietary Restrictions:
+                    </div>
+                    <div class="input">
+                        {{ form.diets }}
+                    </div>
+                </div>
+                <div data-column="3" class="field">
+                    <div class="label">
+                        Type of Meal:
+                    </div>
+                    <div class="input">
+                        {{ form.meals }}
+                    </div>
+                </div>
+            </div>
+            <input class="btn btn-primary" type="submit"></input>
         </div>
-        <input class="btn btn-primary" type="submit"></input>
     </form>
 {% endblock %}
