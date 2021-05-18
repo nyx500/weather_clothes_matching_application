@@ -110,7 +110,7 @@ def recipes(request):
         'recipes': Recipe.objects.all().order_by('-time'), 'form': FilterForm()
     })
 
-
+# Processes user submitting a form and stores it as object in the Recipe class
 @login_required
 def submit(request):
     if request.method == "POST":
@@ -120,6 +120,7 @@ def submit(request):
             url = data["recipe"]
             if data["image"]:
                 image_url = data["image"]
+            # Stores the image_url as a no-image icon if the user has not linked to an image as default
             else:
                 image_url = "https://img.icons8.com/color/96/000000/no-image.png"
             print(f"URL: {url}")
@@ -171,20 +172,7 @@ def submit(request):
                     'message': 'Error: Invalid image URL.'
                 })
             else:
-                new_recipe = Recipe()
-                new_recipe.user = request.user
-                title = data["title"].title()
-                new_recipe.title = title
-                new_recipe.description = data["description"]
-                new_recipe.recipe = url
-                new_recipe.image = "https://img.icons8.com/color/96/000000/no-image.png"
-                new_recipe.food_type = data["food_type"]
-                new_recipe.diets = data["diets"]
-                new_recipe.meals = data["meals"]
-                new_recipe.save()
-                for weather in data["weather"]:
-                    new_recipe.weather.add(weather)
-                return HttpResponseRedirect(reverse("recipes"))
+                pass
 
             if not valid_url_extension(image_url):
                 print("Not a valid url extension")
