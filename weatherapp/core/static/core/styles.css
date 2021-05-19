@@ -11,6 +11,37 @@ body {
     background-size: cover;
 }
 
+
+/* Styling for layout page */
+
+nav {
+    min-height: 100px;
+    background-image: linear-gradient(black, grey);
+    font-weight: bold;
+}
+
+nav span {
+    color: seashell;
+}
+
+nav a {
+    margin-left: 40px;
+}
+
+nav a:hover {
+    color: #f1f1f1;
+}
+
+#main_text {
+    margin-top: 20vh;
+    padding: 0px 20px;
+    text-align: center;
+    position: relative;
+}
+
+
+/* Styling for register and login pages */
+
 .header {
     margin-top: 20vh;
     text-align: start;
@@ -24,10 +55,82 @@ body {
     left: 50%;
     top: 55%;
     transform: translate(-50%, -50%);
+    min-width: 36vw;
 }
 
-.input-form input {
-    width: 50vw;
+input[type='text'] {
+    padding: 10px;
+    border: 2px solid black;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.login-message {
+    font-weight: bold;
+    color: red;
+    background-image: linear-gradient(white, skyblue);
+    border: 1px solid skyblue;
+    border-radius: 8px;
+    width: fit-content;
+    min-width: 36vw;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-message a {
+    color: black!important;
+}
+
+.login-error {
+    font-weight: bold;
+    color: red;
+    margin: 20px;
+}
+
+
+/* Styling for index page */
+
+#main {
+    text-align: center;
+}
+
+#weather-form {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    padding-left: 120px;
+    padding-right: 120px;
+    color: white;
+    background-color: black;
+    border: 1px solid black;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+#weather-form h1 {
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+#weather-form h2 {
+    color: red;
+}
+
+#pick-weather-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: flex-start;
+    padding: 10px;
+}
+
+.form-check {
+    margin-left: 20px;
 }
 
 #submit-form {
@@ -43,25 +146,6 @@ body {
 
 #submit-form .btn {
     margin: 40px;
-}
-
-input[type='text'] {
-    padding: 10px;
-    border: 2px solid black;
-    margin-bottom: 5px;
-    margin-top: 10px;
-}
-
-#main_text {
-    margin-top: 20vh;
-    padding: 0px 20px;
-    text-align: center;
-    position: relative;
-}
-
-#main {
-    text-align: center;
-    position: relative;
 }
 
 #heading {
@@ -88,44 +172,6 @@ input[type='text'] {
     #weather-filter-container {
         width: fit-content;
     }
-}
-
-.form-control {
-    width: 99%!important;
-}
-
-#weather-form {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    padding-left: 120px;
-    padding-right: 120px;
-    background-color: black;
-    border: 1px solid black;
-    color: white;
-    border-radius: 8px;
-    width: fit-content;
-}
-
-#what-weather {
-    font-weight: bold;
-    padding-bottom: 20px;
-}
-
-.container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-end;
-    align-content: flex-start;
-    padding: 10px;
-}
-
-.form-check {
-    margin-left: 20px;
 }
 
 #weather-field {
@@ -160,40 +206,17 @@ input[type='text'] {
     order: 4;
 }
 
-button {
-    padding: 0px 10px;
-    border: 2px solid black;
-    background: black;
-    color: white;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-#message {
+.message {
     color: red;
-    margin-top: 10px;
+    margin: 20px;
+    padding: 18px;
+    background-color: skyblue;
+    border: 1px solid skyblue;
+    border-radius: 8px;
 }
 
-#thank-you {
-    color: red;
-}
-
-nav {
-    min-height: 100px;
-    background-image: linear-gradient(black, grey);
+#message h4 {
     font-weight: bold;
-}
-
-nav span {
-    color: seashell;
-}
-
-.navbar a {
-    margin-left: 40px;
-}
-
-.navbar a:hover {
-    color: #f1f1f1;
 }
 
 .submit-error {
@@ -373,7 +396,7 @@ nav span {
     margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
-    max-width: 80%;
+    width: fit-content;
     font-weight: bold;
     padding: 10px;
     background-color: cyan;
@@ -416,7 +439,7 @@ nav span {
     padding: 0px 10px;
     margin: 0 auto;
     display: grid;
-    grid-gap: 2rem;
+    grid-gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
@@ -460,11 +483,18 @@ nav span {
     flex-direction: column;
     justify-content: stretch;
     width: auto;
+    max-width: 400px;
     margin: 5px;
     background-color: lightblue!important;
     border: 1px solid lightblue!important;
     border-radius: 8px;
     box-shadow: 4px 4px 10px navy;
+}
+
+@media only screen and(min-width: 2000px) {
+    .recipe-card {
+        max-width: 800px;
+    }
 }
 
 @media only screen and (max-width: 350px) {
@@ -559,28 +589,6 @@ nav span {
     margin-right: auto;
     font-weight: bold;
     color: red;
-}
-
-.login-message {
-    font-weight: bold;
-    color: red;
-    background-image: linear-gradient(white, skyblue);
-    border: 1px solid skyblue;
-    border-radius: 8px;
-    width: fit-content;
-    padding: 20px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.login-message a {
-    color: black!important;
-}
-
-.login-error {
-    font-weight: bold;
-    color: red;
-    margin: 20px;
 }
 
 .footer {

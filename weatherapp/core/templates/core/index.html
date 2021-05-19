@@ -3,20 +3,6 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <link rel="shortcut icon" href="#">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>WeatherApp</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="{% static '/core/script.js' %}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
-        <link rel="stylesheet" type="text/css" href="{% static '/core/styles.css'%}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    </head>
     <body>
         {% block div %}
             <div id="main">
@@ -24,46 +10,42 @@
                     <input type="hidden" id="data-response"></input>
                 {% else %}
                     <div id="weather-form">
-                        <h1 id="what-weather">What's the Weather?</h1>
-                        {% if message %}
-                            <h2 id="thank-you">{{ message }}</h2>
-                        {% else %}
-                            <div id="fake-form">
-                                <input type="text" name="city" id="city">
-                                <br>
-                                <div id="time-options" class="container">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="now" value="option1" checked>
-                                        <label class="form-check-label" for="now">Now</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="later" value="option2">
-                                        <label class="form-check-label" for="later">Later today</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="tomorrow" value="option3">
-                                        <label class="form-check-label" for="tomorrow">Tomorrow</label>
-                                    </div>
+                        <h1>What's the Weather?</h1>
+                        <div>
+                            <input type="text" name="city" id="city">
+                            <br>
+                            <div id="pick-weather-container">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="now" value="option1" checked>
+                                    <label class="form-check-label" for="now">Now</label>
                                 </div>
-                                <div id="units-options" class="container">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioUnitOptions" id="celsius" value="cels" checked>
-                                        <label class="form-check-label" for="celsius">Celsius</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioUnitOptions" id="fahrenheit" value="fahr">
-                                        <label class="form-check-label" for="fahrenheit">Fahrenheit</label>
-                                    </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="later" value="option2">
+                                    <label class="form-check-label" for="later">Later today</label>
                                 </div>
-                                <button id='submit-button' class="btn btn-dark" value="Submit">Submit</button>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="tomorrow" value="option3">
+                                    <label class="form-check-label" for="tomorrow">Tomorrow</label>
+                                </div>
                             </div>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioUnitOptions" id="celsius" value="cels" checked>
+                                    <label class="form-check-label" for="celsius">Celsius</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioUnitOptions" id="fahrenheit" value="fahr">
+                                    <label class="form-check-label" for="fahrenheit">Fahrenheit</label>
+                                </div>
+                            </div>
+                            <button id='submit-button' class="btn btn-light" value="Submit">Submit</button>
                         </div>
-                        <footer>
-                            <a href="https://icons8.com/icon/gZjuzZtAaWv6/no-image">No Image icon by Icons8</a>
-                        </footer>
-                    {% endif %}
+                    </div>
+                    <footer>
+                        <a href="https://icons8.com/icon/gZjuzZtAaWv6/no-image">No Image icon by Icons8</a>
+                    </footer>
                 {% endif %}
-            </div>
+            </div>  
         {% endblock %}
     </body>
 </html>

@@ -1,13 +1,21 @@
 {% extends 'core/layout.html' %}
 {% load static %}
 
+{% block title %}
+    <title>Recipes</title>
+{% endblock %}
+
 {% block div %}
 
     <script src="{% static '/core/recipes_script.js'%}"></script>
 
+    {% if message %}
+        <div class="message"><h4>{{ message }}</h4></div>
+    {% endif %}
+
     <div id="recipes-page-container">
         <div id='recipes-title'>
-            <h1>Recipe Suggestions</h1>
+            <h1>Browse Recipes</h1>
         </div>
     
         <div id="weather-filter-container">

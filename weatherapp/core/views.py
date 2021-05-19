@@ -131,50 +131,53 @@ def submit(request):
                 recipe_response = urllib.request.urlopen(recipe_request)
                 status_recipe = recipe_response.getcode()
             except:
-                return render(request, "core/index.html", {
-                    'message': 'Error: Invalid URL.'
+                return render(request, "core/submit.html", {
+                    'message': 'ERROR: The recipe you have entered for the URL does not work.'
                 })
 
             # Validates Image URL
             # Checks if image url has been inputted by the user
-            if len(image_url) > 0:
-                try:
-                    image_response = urllib.request.urlopen(image_request)
-                    status_image = urllib.request.urlopen(image_request).getcode()
-                    message = str(image_response.info())
-                    # Parses the information that comes on the image link to see if the file is really an image
-                    for line in message.splitlines():
-                        if 'Content-Type' in line and 'image' in line:
-                            try:
-                                new_recipe = Recipe()
-                                new_recipe.user = request.user
-                                title = data["title"].title()
-                                new_recipe.title = title
-                                new_recipe.description = data["description"]
-                                new_recipe.recipe = url
-                                new_recipe.image = image_url
-                                new_recipe.food_type = data["food_type"]
-                                new_recipe.diets = data["diets"]
-                                new_recipe.meals = data["meals"]
-                                new_recipe.save()
-                                for weather in data["weather"]:
-                                    new_recipe.weather.add(weather)
-                                return HttpResponseRedirect(reverse("recipes"))
-                            except:
-                                return render(request, "core/index.html", {
-                                    'message': 'Error: Could not save form.'
-                                })
-                except:
-                    return render(request, "core/index.html", {
-                    'message': 'Error: Invalid image URL.'
-                })
+            try:
+                image_response = urllib.request.urlopen(image_request)
+                status_image = urllib.request.urlopen(image_request).getcode()
+                message = str(image_response.info())
+                # Parses the information that comes on the image link to see if the file is really an image
+                for line in message.splitlines():
+                    if 'Content-Type' in line and 'image' in line:
+                        try:
+                            new_recipe = Recipe()
+                            new_recipe.user = request.user
+                            title = data["title"].title()
+                            new_recipe.title = title
+                            new_recipe.description = data["description"]
+                            new_recipe.recipe = url
+                            new_recipe.image = image_url
+                            new_recipe.food_type = data["food_type"]
+                            new_recipe.diets = data["diets"]
+                            new_recipe.meals = data["meals"]
+                            new_recipe.save()
+                            for weather in data["weather"]:
+                                new_recipe.weather.add(weather)
+                            return render(request, "core/recipes.html", {
+                                'message': 'Thank you for your submission.', 'recipes': Recipe.objects.all().order_by('-time'), 'form': FilterForm()
+                            })
+                        except:
+                            return render(request, "core/submit.html", {
+                                'message': 'ERROR: Some data you have entered is invalid.', 'form': RecipeForm()
+                            })
+            except:
+                return render(request, "core/submit.html", {
+                'message': 'Error: Invalid image URL.', 'form': RecipeForm()
+            })
 
             if not valid_url_extension(image_url):
-                return render(request, "core/index.html", {
-                    'message': 'Error: Invalid URL for image link.'
+                return render(request, "core/submit.html", {
+                    'message': 'The format of this image is unsupported by this website.', 'form': RecipeForm()
                 })
         else:
-            return HttpResponseRedirect(reverse("submit"))
+            return render(request, "core/submit.html", {
+                    'message': f'One or more of the fields you have entered is invalid. ERROR: {form.errors}', 'form': RecipeForm()
+                })
     else:
         form = RecipeForm()
         return render(request, "core/submit.html", {

@@ -2,6 +2,9 @@
 
 {% block div %}
     <h1 id="submit-title">Submit a Recipe</h1>
+    {% if message %}
+        <div class="message"><h4>{{ message }}</h4></div>
+    {% endif %}
     <form id="submit-form" action="{% url "submit" %}" method="POST">
         {% csrf_token %}
         <div class="form-group">

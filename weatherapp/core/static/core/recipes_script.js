@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // If user selects some weather filters, choose the appropriate recipes in those categories and display them
     document.querySelector('#choose-weather').onclick = () => {
+        if (document.querySelector('.message')) {
+            document.querySelector('.message').remove();
+        }
         window.recipes.forEach(recipe => {
             recipe['weather'] = false;
         });
@@ -37,6 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Displays all of the recipes if the user cllicks on the 'View All' button
     document.querySelector('#choose-weather-all').onclick = () => {
+        if (document.querySelector('.message')) {
+            document.querySelector('.message').remove();
+        }
         display_all(window.recipes);
         history.pushState({ recipes: 'loaded', weather_types: 'all' }, ``, '/recipes');
     }
