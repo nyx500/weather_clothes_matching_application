@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Loads weather data when user presses the submit button
     if (document.querySelector('#submit-button')) {
         document.querySelector('#submit-button').onclick = () => {
+            if (document.querySelector('footer')) {
+                document.querySelector('footer').style.display = 'none';
+            }
             get_form_input();
         }
     }
@@ -22,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Displays the weather data once user has submitted the form using the items stored in local storage
     if (document.querySelector('#data-response')) {
         get_data(window.localStorage.getItem('city'), window.localStorage.getItem('time'), window.localStorage.getItem('units'));
+    }
+
+    document.querySelector('#all-recipes').onclick = () => {
+        console.log('CLICKED');
+        history.pushState(null, ``, '/recipes', '/recipes');
     }
 })
 
@@ -258,26 +266,22 @@ function create_recipe_card(recipe, index) {
     recipe_url.href = `${recipe['recipe']};`
     var recipe_img = document.createElement('img');
     recipe_img.src = recipe["image"];
-    recipe_img.className = "recipe-img";
+    recipe_img.className = "card-img-top";
     var desc = document.createElement("p");
-    desc.className = "description";
     desc.innerHTML = recipe["description"];
     var types = document.createElement("div");
     types.id = `recipe-types${index}`;
-    types.className = 'recipe-types';
     types.innerHTML = `<h6><b>Cuisine:</b> ${recipe["food_type"]}</h6><h6><b>Specialised diet:</b> ${recipe["diets"]}</h6><h6><b>Meal type:</b> ${recipe["meals"]}</h6>`;
     var footer = document.createElement("div");
     footer.id = `footer${index}`;
     footer.className = 'card-footer';
     var user = document.createElement('h6');
-    user.className = 'user';
     user.innerHTML = `Posted by: <b>${recipe['username']}</b>`;
     var attribution = document.createElement('a');
     attribution.href = recipe['recipe'];
     attribution.id = `attribution${index}`;
     attribution.className = 'attribution';
     var attribution_text = document.createElement('p');
-    attribution_text.className = 'attribution-text';
     attribution_text.innerHTML = recipe['recipe'];
     if (document.querySelector('#weather-form')) {
         document.querySelector('#weather-form').style.display = 'none';

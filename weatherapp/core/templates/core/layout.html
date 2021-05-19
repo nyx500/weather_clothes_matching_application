@@ -31,7 +31,7 @@
                         <a class="navbar-link" href="{% url 'index' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="navbar-link" href="{% url 'recipes' %}">All Recipes</a>
+                        <a id="all-recipes" class="navbar-link" href="{% url 'recipes' %}">All Recipes</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">

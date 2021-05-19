@@ -32,6 +32,11 @@ nav a:hover {
     color: #f1f1f1;
 }
 
+#all-recipes {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
 #main_text {
     margin-top: 20vh;
     padding: 0px 20px;
@@ -148,6 +153,23 @@ input[type='text'] {
     margin: 40px;
 }
 
+#recipe-container {
+    padding: 0px 10px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+#information {
+    margin: 20px;
+    padding: 20px;
+    background-color: seashell;
+    border: 1px solid seashell;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px seashell;
+}
+
 #heading {
     padding: 20px;
     text-align: center;
@@ -162,16 +184,106 @@ input[type='text'] {
     box-shadow: 4px 4px 10px beige;
 }
 
-@media only screen and (max-width: 300px) {
-    #main {
-        position: absolute;
-        left: 10%;
-        top: 100%;
-        margin-top: 20px;
-    }
-    #weather-filter-container {
-        width: fit-content;
-    }
+#assessment {
+    margin: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.submit-error {
+    margin-top: 10px;
+    padding: 10px;
+    font-weight: bold;
+    background-color: aqua;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    border: 2px solid teal;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px;
+}
+
+.card-wrap {
+    flex: 0 0 100%;
+    display: flex;
+    padding: 2px;
+}
+
+.recipe-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    width: auto;
+    max-width: 400px;
+    margin: 5px;
+    background-color: lightblue!important;
+    border: 1px solid lightblue!important;
+    border-radius: 8px;
+    box-shadow: 4px 4px 10px navy;
+}
+
+.card-title {
+    order: 1;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.card-img-top {
+    order: 2;
+    padding: 10px;
+    width: 100%;
+    max-height: 12rem;
+    object-fit: cover;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+}
+
+.card-body {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: stretch;
+}
+
+.card-footer {
+    order: 4;
+}
+
+.attribution {
+    order: 5;
+    font-size: 10px;
+    color: grey;
+    font-style: oblique;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    font-weight: bold;
+}
+
+footer a {
+    color: navy!important;
+}
+
+
+/* Styling for submit recipe page */
+
+#submit-title {
+    font-weight: bold;
+    padding: 10px;
+    background-color: black;
+    border: 1px solid black;
+    border-radius: 8px;
+    color: seashell;
+    width: fit-content;
+    margin-left: 20px;
+    margin-bottom: 40px;
 }
 
 #weather-field {
@@ -213,59 +325,27 @@ input[type='text'] {
     background-color: skyblue;
     border: 1px solid skyblue;
     border-radius: 8px;
-}
-
-#message h4 {
     font-weight: bold;
 }
 
-.submit-error {
-    margin-top: 10px;
-    padding: 10px;
-    font-weight: bold;
-    background-color: aqua;
-    width: fit-content;
+
+/* Styling for recipes page */
+
+#recipes-title {
+    display: none;
+    margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
-    border: 2px solid teal;
-    border-radius: 8px;
-    box-shadow: 2px 2px 2px;
-}
-
-#refresh-message {
-    margin-left: 180px;
-    margin-top: 100px;
-}
-
-#information {
-    margin: 20px;
-    padding: 20px;
+    width: fit-content;
+    padding: 10px;
     background-color: seashell;
     border: 1px solid seashell;
     border-radius: 8px;
-    box-shadow: 2px 2px 10px seashell;
-}
-
-#assessment {
-    margin: 20px;
     font-weight: bold;
-    font-size: 18px;
 }
 
-#select-filters {
-    text-align: center;
-    display: none;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: auto;
-    padding: 8px 80px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: lightcyan;
-    border: 1px solid cyan;
-    border-radius: 8px;
-    box-shadow: 2px 2px 4px;
+#recipes-title h4 {
+    font-weight: bold;
 }
 
 #weather-filter-container {
@@ -315,22 +395,6 @@ input[type='text'] {
     margin-bottom: 20px;
 }
 
-#weather-filter-container span button {
-    margin: 10px;
-}
-
-.filter {
-    border-radius: 8px;
-    margin: 10px;
-    display: none;
-    min-width: 100%;
-}
-
-.recipe-filter {
-    min-width: 100%;
-    padding: 100px;
-}
-
 .recipes-page-container {
     position: absolute;
     top: 50%;
@@ -339,8 +403,27 @@ input[type='text'] {
     margin-left: -50px;
     width: 100px;
     height: 100px;
-    background-color: greenyellow;
     padding: 100px;
+}
+
+#select-filters {
+    text-align: center;
+    display: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
+.filter {
+    display: none;
+}
+
+.recipe-filter {
+    min-width: 100%;
+    padding: 10px;
+    margin: 5px;
 }
 
 .field {
@@ -351,7 +434,6 @@ input[type='text'] {
     justify-content: flex-start;
     align-items: flex-start;
     align-content: stretch;
-    text-align: start;
 }
 
 .field .label {
@@ -371,103 +453,34 @@ input[type='text'] {
     order: 1;
     background-color: lightgoldenrodyellow;
     border: 1px solid lightgoldenrodyellow;
-    padding: 5px;
-    margin: 5px;
 }
 
 #meal-filter-container {
     order: 2;
     background-color: lightgreen;
     border: 1px solid lightgreen;
-    padding: 5px;
-    margin: 5px;
 }
 
 #diet-filter-container {
     order: 3;
     background-color: lavender;
     border: 1px solid lavender;
-    padding: 5px;
-    margin: 5px;
-}
-
-#recipes-title {
-    display: none;
-    margin-top: 150px;
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content;
-    font-weight: bold;
-    padding: 10px;
-    background-color: cyan;
-    border: 1px solid cyan;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-#recipes-title h1 {
-    font-weight: bold;
-}
-
-#submit-title {
-    font-weight: bold;
-    padding: 10px;
-    background-color: black;
-    border: 1px solid black;
-    border-radius: 8px;
-    color: seashell;
-    width: fit-content;
-    margin-left: 20px;
-    margin-bottom: 40px;
 }
 
 #apply {
     order: 4;
     align-self: center;
     justify-self: center;
-    padding-left: 20px;
-    padding-right: 20px;
     background-color: black!important;
     color: seashell;
     border: 2px solid red;
-    box-shadow: 2px 2px 6px grey;
     font-weight: bold;
     margin-top: 20px;
-}
-
-#recipe-container {
-    padding: 0px 10px;
-    margin: 0 auto;
-    display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.title {
-    font-weight: bold;
-}
-
-.recipe-img {
-    padding: 10px;
-    width: 100%;
-    height: 20vw;
-    object-fit: cover;
-    margin: 0 auto;
-    text-align: center;
-    display: block;
 }
 
 .recipe-weather-types {
     order: 3;
     margin-bottom: 100px;
-}
-
-
-/* Style for recipes page */
-
-#all-recipes {
-    text-align: center;
-    margin-bottom: 50px;
 }
 
 #grid-container {
@@ -476,67 +489,6 @@ input[type='text'] {
     grid-auto-flow: row;
     gap: 4px;
     justify-items: center;
-}
-
-.recipe-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    width: auto;
-    max-width: 400px;
-    margin: 5px;
-    background-color: lightblue!important;
-    border: 1px solid lightblue!important;
-    border-radius: 8px;
-    box-shadow: 4px 4px 10px navy;
-}
-
-@media only screen and(min-width: 2000px) {
-    .recipe-card {
-        max-width: 800px;
-    }
-}
-
-@media only screen and (max-width: 350px) {
-    .recipe-card {
-        justify-self: start;
-        align-self: start;
-        max-width: 12rem;
-    }
-    .recipe-filter {
-        width: auto;
-    }
-}
-
-.card-wrap {
-    flex: 0 0 100%;
-    display: flex;
-    padding: 2px;
-}
-
-.card-title {
-    order: 1;
-    text-align: center;
-    margin-top: 5px;
-}
-
-.card-img-top {
-    order: 2;
-    padding: 10px;
-    width: 100%;
-    max-height: 12rem;
-    object-fit: cover;
-    margin: 0 auto;
-    text-align: center;
-    display: block;
-}
-
-.card-body {
-    order: 3;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: stretch;
 }
 
 .desc {
@@ -556,35 +508,18 @@ input[type='text'] {
 }
 
 .weather-button {
-    box-shadow: 5px 5px 10px grey;
+    cursor: default!important;
     padding: 10px;
     border: 1px solid green;
     border-radius: 10px;
     background-color: green;
     margin: 5px;
-    cursor: default;
-}
-
-.card-footer {
-    order: 4;
-}
-
-.attribution {
-    order: 5;
-    font-size: 10px;
-    color: grey;
-    font-style: oblique;
 }
 
 .error {
     text-align: center;
     display: none;
-    padding: 10px;
-    background-color: seashell;
-    border: 1px solid seashell;
-    border-radius: 8px;
     margin-bottom: 10px;
-    width: fit-content;
     margin-left: auto;
     margin-right: auto;
     font-weight: bold;
@@ -600,13 +535,34 @@ input[type='text'] {
     padding: 20px;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    font-weight: bold;
+
+/* Media queries for mobile-responsive CSS */
+
+@media only screen and (max-width: 300px) {
+    #main {
+        position: absolute;
+        left: 10%;
+        top: 100%;
+        margin-top: 20px;
+    }
+    #weather-filter-container {
+        width: fit-content;
+    }
 }
 
-footer a {
-    color: navy!important;
+@media only screen and (max-width: 350px) {
+    .recipe-card {
+        justify-self: start;
+        align-self: start;
+        max-width: 12rem;
+    }
+    .recipe-filter {
+        width: auto;
+    }
+}
+
+@media only screen and(min-width: 2000px) {
+    .recipe-card {
+        max-width: 800px;
+    }
 }
