@@ -195,17 +195,14 @@ input[type='text'] {
 }
 
 .submit-error {
-    margin-top: 10px;
+    margin: 10px;
     padding: 10px;
     font-weight: bold;
-    background-color: aqua;
+    color: crimson;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    border: 2px solid teal;
-    border-radius: 8px;
-    box-shadow: 2px 2px 2px;
 }
 
 .card-wrap {

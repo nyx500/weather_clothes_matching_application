@@ -132,7 +132,7 @@ function get_data(city, time, units) {
                 error_message.id = "error";
                 error_message.className = "submit-error";
                 error_message.innerHTML = `The input: <em>'${city}'</em> is invalid. Please insert a valid location.`;
-                document.querySelector('#main').append(error_message);
+                document.querySelector('#weather-form').append(error_message);
             } else {
                 // Sets new state in history if there is not one for this page already.Attribution: https://stackoverflow.com/questions/30429172/html5-history-api-cannot-go-backwards-more-than-once
                 if (!history.state || history.state.city != city) {
@@ -174,7 +174,7 @@ function get_form_input() {
         submit_error.id = "submit_error";
         submit_error.className = "submit-error";
         submit_error.innerHTML = "You have to submit a valid location."
-        document.querySelector('#main').append(submit_error);
+        document.querySelector('#weather-form').append(submit_error);
     } else {
         window.localStorage.setItem('city', window.city);
         window.time = if_checked();
