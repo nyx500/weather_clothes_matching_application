@@ -1,0 +1,5 @@
+Python Packages and Libraries:
+- requests: https://pypi.org/project/requests/
+- bs4: https://pypi.org/project/bs4/
+- mimetypes library (comes pre-installed with Python)
+- urllib.request library (comes pre-installed with Python)
