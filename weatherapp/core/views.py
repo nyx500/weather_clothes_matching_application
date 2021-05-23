@@ -80,6 +80,7 @@ def get_data(request):
         # Gets data from user's form
         data = json.loads(request.body)
         city = data.get("city", "")
+        print(city)
         time = data.get("time", "")
         units = data.get("units", "")
         if city != 'no_city':
@@ -97,10 +98,10 @@ def get_data(request):
         else:
             return render(request, 'core/index.html')
 
-# If tge user refreshes page on the city JS state, then this allows Python to send a hidden message to index page which is waited for on the script as a signal to fetchthe weather data from get_data and the API again
+# If the user refreshes page on the city JS state, then this allows Python to send a hidden message with the new city name to the index page which is waited for on the script as a signal to fetchthe weather data from get_data and the API again
 def get_city(request, city):
     return render(request, 'core/index.html', {
-        'get_data': "yes"
+        'get_data': city
     })
 
 def recipes(request):

@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Displays the weather data once user has submitted the form using the items stored in local storage
     if (document.querySelector('#data-response')) {
-        get_data(window.localStorage.getItem('city'), window.localStorage.getItem('time'), window.localStorage.getItem('units'));
+        var place = document.querySelector('#data-response').value;
+        get_data(place, window.localStorage.getItem('time'), window.localStorage.getItem('units'));
     }
 
     document.querySelector('#all-recipes').onclick = () => {
-        console.log('CLICKED');
         history.pushState(null, ``, '/recipes', '/recipes');
     }
 })
@@ -132,7 +132,9 @@ function get_data(city, time, units) {
                 error_message.id = "error";
                 error_message.className = "submit-error";
                 error_message.innerHTML = `The input: <em>'${city}'</em> is invalid. Please insert a valid location.`;
-                document.querySelector('#weather-form').append(error_message);
+                if (document.querySelector('#weather-form')) {
+                    document.querySelector('#weather-form').append(error_message);
+                };
             } else {
                 // Sets new state in history if there is not one for this page already.Attribution: https://stackoverflow.com/questions/30429172/html5-history-api-cannot-go-backwards-more-than-once
                 if (!history.state || history.state.city != city) {

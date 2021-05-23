@@ -6,8 +6,8 @@
     <body>
         {% block div %}
             <div id="main">
-                {% if get_data == "yes" %}
-                    <input type="hidden" id="data-response"></input>
+                {% if get_data %}
+                    <input type="hidden" id="data-response" value="{{ get_data }}"></input>
                 {% else %}
                     <div id="weather-form">
                         <h1>What's the Weather?</h1>
